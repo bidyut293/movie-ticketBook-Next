@@ -56,6 +56,7 @@ import MaxWidthWrapper from '../src/common/MaxWidthWrapper';
 
 import {
   hoursToMinutes,
+  getYear,
   getTime,
   format,
   addDays,
@@ -210,6 +211,7 @@ const SelectedMovie = () => {
 
   let dateArray = dateFunc();
   useEffect(() => {
+    // console.log('ghghg', getYear(new Date()));
     // console.log('getinterval', hoursToMinutes(2.5));
     // console.log('getTime', format(new Date(), 'H'));
     const result = addHours(new Date(2014, 6, 10, 8, 0), 2);
@@ -321,11 +323,7 @@ const SelectedMovie = () => {
     <MaxWidthWrapper>
       {warn && (
         <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="warning"
-            sx={{ width: '100%' }}
-          >
+          <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
             Please Select the Time to watch Movie
           </Alert>
         </Snackbar>
@@ -361,8 +359,7 @@ const SelectedMovie = () => {
                   color: '#414a63',
                 }}
               >
-                Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora
-                aut
+                Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora aut
               </Typography>
 
               <Box>
@@ -387,10 +384,7 @@ const SelectedMovie = () => {
                     <ChevronRightIcon style={{ color: '#333333' }} />
                   </Box>
                   {/* <Box className="swiper-button image-swiper-button-prev"> */}
-                  <Box
-                    id={style.swiperbtnleft}
-                    className="swiper-button image-swiper-button-prev"
-                  >
+                  <Box id={style.swiperbtnleft} className="swiper-button image-swiper-button-prev">
                     <KeyboardArrowLeftIcon style={{ color: '#333333' }} />
                   </Box>
                   <Swiper
@@ -436,8 +430,7 @@ const SelectedMovie = () => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 justifyContent: 'center',
-                                backgroundColor:
-                                  id == ind + 1 ? '#1a2c50' : '#fff',
+                                backgroundColor: id == ind + 1 ? '#1a2c50' : '#fff',
                                 ':hover': {
                                   color: '#fff',
                                 },
@@ -597,23 +590,15 @@ const SelectedMovie = () => {
                 {data.map((item, ind) => {
                   return (
                     <>
-                      <Box
-                        style={{ paddingTop: '40px', paddingRight: '110px' }}
-                      >
+                      <Box style={{ paddingTop: '40px', paddingRight: '110px' }}>
                         <Box
                           style={{
                             display: 'flex',
                             justifyContent: 'space-between',
                           }}
                         >
-                          <Box
-                            style={{ display: 'flex', alignItems: 'center' }}
-                          >
-                            <Image
-                              src={starico}
-                              className={style.starlogo}
-                              alt="starlogo"
-                            />
+                          <Box style={{ display: 'flex', alignItems: 'center' }}>
+                            <Image src={starico} className={style.starlogo} alt="starlogo" />
                             <Typography
                               variant="h5"
                               className="moviesh5text"
@@ -733,15 +718,11 @@ const SelectedMovie = () => {
                                         >
                                           <Button
                                             sx={{
-                                              border: time.selected
-                                                ? '0px'
-                                                : '1px solid #5A637A',
+                                              border: time.selected ? '0px' : '1px solid #5A637A',
                                               borderRadius: '5px',
                                               color: '#1a2c50',
                                               fontSize: '17px',
-                                              backgroundColor: time.selected
-                                                ? '#DADFE8'
-                                                : '#fff',
+                                              backgroundColor: time.selected ? '#DADFE8' : '#fff',
                                               '&:hover': {
                                                 color: '#fff',
                                                 backgroundColor: '#1a2c50',
@@ -756,12 +737,7 @@ const SelectedMovie = () => {
                                             id="card"
                                             disabled={time.selected}
                                             // className={style.cardTime}
-                                            onClick={() =>
-                                              handleDateClickTime(
-                                                time,
-                                                type.show
-                                              )
-                                            }
+                                            onClick={() => handleDateClickTime(time, type.show)}
                                           >
                                             {/* <CardContent
                                               style={{
@@ -919,9 +895,7 @@ const SelectedMovie = () => {
                     id="card"
                     className={style.cardbooking}
                   >
-                    <CardContent
-                      style={{ paddingTop: '25px', paddingLeft: '18px' }}
-                    >
+                    <CardContent style={{ paddingTop: '25px', paddingLeft: '18px' }}>
                       <Typography
                         className={style.selectThatre}
                         sx={{ fontSize: 14 }}

@@ -20,6 +20,18 @@ const nextConfig = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.filmibeat.com',
+        port: '',
+        // pathname: '/account123/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.scrolldroll.com',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
 }

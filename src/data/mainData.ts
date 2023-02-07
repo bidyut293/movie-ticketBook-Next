@@ -1,6 +1,11 @@
-import { hoursToMinutes } from 'date-fns';
+import { hoursToMinutes, getYear } from 'date-fns';
+import { moviesListingType } from '../types/constants/movieListing.type';
+import { theatreListingType } from '../types/constants/theatreListing.type';
+import { areaType } from '../types/constants/city.type';
+import { ratingType } from '../types/constants/rating.type';
+import { adsDataType} from '../types/constants/adsData.type'
 
-export const moviesListing: Array<any> = [
+export const moviesListing: moviesListingType[] = [
   {
     id: 1,
     slug: 'house-of-dragon',
@@ -18,11 +23,11 @@ export const moviesListing: Array<any> = [
     id: 2,
     slug: 'doctor-strange',
     title: 'Doctor Strange',
-    category: ['theatre-2'],
+    category: ['theatre-2', 'theatre-4'],
     linkImg:
       'https://www.scrolldroll.com/wp-content/uploads/2022/04/Doctor-strange-Hollywood-movies-releasing-in-may-2022.webp',
-    Genre: 'sci-fi',
-    Director: 'Gulf Kubet',
+    genre: 'sci-fi',
+    director: 'Gulf Kubet',
     rating1: 'MA',
     rating: 'rat-2',
     duration: hoursToMinutes(2.8),
@@ -32,10 +37,10 @@ export const moviesListing: Array<any> = [
     id: 3,
     slug: 'black-phone',
     title: 'Black Phone',
-    category: ['theatre-3'],
+    category: ['theatre-3', 'theatre-4', 'theatre-5'],
     linkImg: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2xfSO3YLkfW7rfLFKCpt9cROeBy.jpg',
-    Genre: 'Horror , Thriller',
-    Director: 'Scott Derrickson',
+    genre: 'Horror , Thriller',
+    director: 'Scott Derrickson',
     rating1: 'MA',
     rating: 'rat-3',
     duration: hoursToMinutes(2.8),
@@ -45,10 +50,10 @@ export const moviesListing: Array<any> = [
     id: 4,
     slug: 'top-gun-maverick',
     title: 'Top Gun Maverick',
-    category: ['theatre-4'],
+    category: ['theatre-2', 'theatre-4', 'theatre-5', 'theatre-7'],
     linkImg: 'https://www.themoviedb.org/t/p/original/xOk8XAUnJR08GDFq6hwqD1vjV9O.jpg',
-    Genre: 'Action,Drama',
-    Director: 'Scott Derrickson',
+    genre: 'Action,Drama',
+    director: 'Scott Derrickson',
     rating1: 'MA',
     rating: 'rat-4',
     duration: hoursToMinutes(2.1),
@@ -56,12 +61,12 @@ export const moviesListing: Array<any> = [
   },
   {
     id: 5,
-    slug: 'moon-knight',
-    title: 'Moon Knight',
-    category: ['theatre-5'],
+    slug: 'mbulance',
+    title: 'Ambulance',
+    category: ['theatre-1', 'theatre-3', 'theatre-5'],
     linkImg: 'https://www.themoviedb.org/t/p/original/fHQuhMKniqfvb3IrjIU1F5MfgQT.jpg',
-    Genre: 'Action & Adventure',
-    Director: 'Scott Derrickson',
+    genre: 'Action & Adventure',
+    director: 'Scott Derrickson',
     rating1: 'MA',
     rating: 'rat-5',
     duration: hoursToMinutes(2.1),
@@ -71,11 +76,11 @@ export const moviesListing: Array<any> = [
     id: 6,
     slug: 'secret-dumbeldore',
     title: 'Secret Dumbeldore',
-    category: ['theatre-6'],
+    category: ['theatre-6', 'theatre-7'],
     linkImg:
-      'https://www.filmibeat.com/img/196x261/popcorn/movie_posters/fantasticbeaststhesecretsofdumbledore-20220106135936-20667.jpg',
-    Genre: 'Action & Adventure',
-    Director: 'Mike Richardsen',
+      'https://www.scrolldroll.com/wp-content/uploads/2022/02/ambulance-boy-hollywood-movies-releasing-in-march-2022.jpeg',
+    genre: 'Action & Adventure',
+    director: 'Mike Richardsen',
     rating1: 'MA',
     rating: 'rat-6',
     duration: hoursToMinutes(2.6),
@@ -83,13 +88,13 @@ export const moviesListing: Array<any> = [
   },
   {
     id: 7,
-    slug: 'adam-project',
-    title: 'Adam Project',
-    category: ['theatre-7'],
+    slug: 'firestarter',
+    title: 'Firestarter',
+    category: ['theatre-6', 'theatre-7'],
     linkImg:
-      'https://www.filmibeat.com/img/196x261/popcorn/movie_posters/theadamproject-20220311195514-20811.jpg',
-    Genre: 'Action & Adventure',
-    Director: 'John Root',
+      'https://www.scrolldroll.com/wp-content/uploads/2022/04/Firestarter-Hollywood-Movies-Releasing-in-May-2022.jpg',
+    genre: 'Action & Adventure',
+    director: 'John Root',
     rating1: 'MA',
     rating: 'rat-7',
     duration: hoursToMinutes(2.6),
@@ -97,9 +102,9 @@ export const moviesListing: Array<any> = [
   },
 ];
 
-export const theatreListing = [
+export const theatreListing: theatreListingType[] = [
   {
-    id: 'theatre1',
+    id: 'theatre-1',
     shortForm: 'BRC',
     name: 'Bajrang Cinema',
     address: 'Ved Road, Surat',
@@ -108,26 +113,25 @@ export const theatreListing = [
       {
         type: 'regularTwoD',
         name: 'Regular 2D',
-        amount: 100,
         time: [
           {
-            time: new Date(2022, 1, 10, 10, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 10, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 14, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 14, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 16, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 16, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 22, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 22, 0).getHours(),
             price: 100,
           },
         ],
@@ -135,110 +139,106 @@ export const theatreListing = [
       {
         type: 'goldClassTwoD',
         name: 'Gold Class 2D',
-        amount: 120,
         time: [
           {
-            time: new Date(2022, 1, 10, 9, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 9, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 14, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 14, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 17, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 17, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 20, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 20, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 20, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 20, 0).getHours(),
             price: 120,
           },
         ],
       },
       {
-        type: 'Velvet-2D',
+        type: 'velvetTwoD',
         name: 'Velvet 2D',
-        amount5: 150,
         time: [
           {
-            time: new Date(2022, 1, 10, 7, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 7, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 9, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 9, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 11, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 11, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 13, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 13, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 17, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 17, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 23, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 23, 0).getHours(),
             price: 150,
           },
         ],
       },
     ],
   },
-
   {
-    id: 'theatre2',
+    id: 'theatre-2',
     shortForm: 'VM',
     name: 'Valam Multiplex',
     address: 'Varacha, Surat',
     area: ['city-2'],
     show: [
       {
-        type: '2D',
+        type: 'twoD',
         name: '2D',
-        amount: 100,
         time: [
           {
-            time: new Date(2022, 1, 10, 10, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 10, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 14, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 14, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 16, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 16, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 22, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 22, 0).getHours(),
             price: 100,
           },
         ],
@@ -246,31 +246,30 @@ export const theatreListing = [
     ],
   },
   {
-    id: 'theatre3',
+    id: 'theatre-3',
     shortForm: 'CPT',
     name: 'CINE PLUS THEATRE',
     address: 'Kohinoor Road, Surat',
     area: ['city-3'],
     show: [
       {
-        type: '2D',
+        type: 'twoD',
         name: '2D',
-        amount: 50,
         time: [
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 50,
           },
         ],
@@ -278,31 +277,30 @@ export const theatreListing = [
     ],
   },
   {
-    id: 'theatre4',
+    id: 'theatre-4',
     shortForm: 'IRM',
     name: 'INOX Reliance Mall',
     address: 'Udhna Darwaja, Surat',
     area: ['city-4'],
     show: [
       {
-        type: '2D',
+        type: 'twoD',
         name: '2D',
-        amount: 50,
         time: [
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 50,
           },
         ],
@@ -310,109 +308,106 @@ export const theatreListing = [
     ],
   },
   {
-    id: 'theatre5',
+    id: 'theatre-5',
     shortForm: 'DRW',
     name: 'INOX DR World Surat',
     address: 'Parvat Patiya, Surat',
     area: ['city-5'],
     show: [
       {
-        type: 'Regular-2D',
+        type: 'regularTwoD',
         name: 'Regular 2D',
-        amount: 100,
         time: [
           {
-            time: new Date(2022, 1, 10, 10, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 10, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 14, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 14, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 16, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 16, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 100,
           },
           {
-            time: new Date(2022, 1, 10, 22, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 22, 0).getHours(),
             price: 100,
           },
         ],
       },
       {
-        type: 'Gold_Class-2D',
+        type: 'goldClassTwoD',
         name: 'Gold Class 2D',
-        amount: 120,
         time: [
           {
-            time: new Date(2022, 1, 10, 9, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 9, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 14, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 14, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 17, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 17, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 20, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 20, 0).getHours(),
             price: 120,
           },
           {
-            time: new Date(2022, 1, 10, 20, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 20, 0).getHours(),
             price: 120,
           },
         ],
       },
       {
-        type: 'Velvet-2D',
+        type: 'velvetTwoD',
         name: 'Velvet 2D',
-        amount5: 150,
         time: [
           {
-            time: new Date(2022, 1, 10, 7, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 7, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 9, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 9, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 11, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 11, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 13, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 13, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 17, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 17, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 150,
           },
           {
-            time: new Date(2022, 1, 10, 23, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 23, 0).getHours(),
             price: 150,
           },
         ],
@@ -420,31 +415,30 @@ export const theatreListing = [
     ],
   },
   {
-    id: 'theatre6',
+    id: 'theatre-6',
     shortForm: 'Cinepolis',
     name: 'Cinepolis',
     address: 'Hazira-Adajan, Surat',
     area: ['city-6'],
     show: [
       {
-        type: '2D',
+        type: 'twoD',
         name: '2D',
-        amount: 50,
         time: [
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 50,
           },
         ],
@@ -452,31 +446,30 @@ export const theatreListing = [
     ],
   },
   {
-    id: 'theatre7',
+    id: 'theatre-7',
     shortForm: 'RCH',
     name: 'Rajhans Cinema Hall',
     address: 'Pal, Surat',
     area: ['city-7'],
     show: [
       {
-        type: '2D',
+        type: 'twoD',
         name: '2D',
-        amount: 50,
         time: [
           {
-            time: new Date(2022, 1, 10, 12, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 12, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 15, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 15, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 19, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 19, 0).getHours(),
             price: 50,
           },
           {
-            time: new Date(2022, 1, 10, 21, 0).getHours(),
+            time: new Date(getYear(new Date()), 1, 10, 21, 0).getHours(),
             price: 50,
           },
         ],
@@ -485,71 +478,92 @@ export const theatreListing = [
   },
 ];
 
-export const city = [
+export const area: areaType[] = [
+  {
+    id: 'city-all',
+    name: 'All',
+    value: 'All',
+  },
   {
     id: 'city-1',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Ved Road',
+    value: 'Ved Road',
   },
   {
     id: 'city-2',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Varacha',
+    value: 'Varacha',
   },
   {
     id: 'city-3',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Kohinoor Road',
+    value: 'Kohinoor Road',
   },
   {
     id: 'city-4',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Udhna Darwaja',
+    value: 'Udhna Darwaja',
   },
   {
     id: 'city-5',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Parvat Patiya',
+    value: 'Parvat Patiya',
   },
   {
     id: 'city-6',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Hazira-Adajan',
+    value: 'Hazira-Adajan',
   },
   {
     id: 'city-7',
-    name: 'SURAT',
-    value: 'SUT',
+    name: 'Pal',
+    value: 'Pal',
   },
 ];
 
-export const rating = [
+export const rating: ratingType[] = [
   {
     id: 'rat-1',
     value: 'MA',
   },
   {
     id: 'rat-2',
-    value: 'B',
+    value: 'G',
   },
   {
     id: 'rat-3',
-    value: 'C',
+    value: 'PG-13',
   },
   {
     id: 'rat-4',
-    value: 'A',
+    value: 'R',
   },
   {
     id: 'rat-5',
-    value: 'B',
+    value: 'NC-17',
   },
   {
     id: 'rat-6',
-    value: 'A',
+    value: 'PG',
   },
   {
     id: 'rat-7',
-    value: 'A',
+    value: 'M',
+  },
+];
+
+
+export const adsData: adsDataType[] = [
+  {
+    id: 1,
+    adsImage: 'https://i.postimg.cc/1zRSzwrZ/Ads-1.png',
+  },
+  {
+    id: 2,
+    adsImage: 'https://i.postimg.cc/j5GBy7P2/Ads-2.png',
+  },
+  {
+    id: 3,
+    adsImage: 'https://i.postimg.cc/wMX4Jb94/Ads-3.png',
   },
 ];
