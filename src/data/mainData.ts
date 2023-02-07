@@ -1,4 +1,3 @@
-
 import { hoursToMinutes } from 'date-fns';
 
 export const moviesListing: Array<any> = [
@@ -6,7 +5,7 @@ export const moviesListing: Array<any> = [
     id: 1,
     slug: 'house-of-dragon',
     title: 'House of the Dragon',
-    category: ['theatre-1'],
+    category: ['theatre-1', 'theatre-2'],
     linkImg: 'https://www.themoviedb.org/t/p/original/ixOE4qfspKZaaGZUnPCQDANznTz.jpg',
     genre: 'Mystery',
     director: 'John Watts',
