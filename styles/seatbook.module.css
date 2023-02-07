@@ -1,0 +1,188 @@
+.divmainseatbook {
+  /* padding-left: 70px;
+  padding-right: 70px; */
+  padding-top: 60px;
+}
+
+.selectseattext {
+  font-family: 'system-ui';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42px;
+  color: #333333;
+}
+
+.selectseattext2 {
+  font-family: 'system-ui';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #414a63;
+}
+
+.divbox1 {
+  width: 16px;
+  height: 16px;
+  background: #1a2c50;
+}
+
+.textbox1 {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #333333;
+  margin-left: 12px;
+}
+
+.divbox2 {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border: 1px solid #333333;
+}
+
+.textbox2 {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #333333;
+  margin-left: 12px;
+}
+
+.divbox3 {
+  width: 16px;
+  height: 16px;
+  background: #118eea;
+}
+
+.textbox3 {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #333333;
+  margin-left: 12px;
+}
+
+.divcardseatmain {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+  grid-gap: 15px;
+  padding-right: 28px;
+  padding-left: 33px;
+  padding-bottom: 90px;
+}
+
+.cardboxseat {
+  width: 40px;
+  height: 36px;
+}
+
+.seatText2 {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.cardboxseat:hover {
+  background-color: #1a2c50;
+}
+
+.seatText2:hover {
+  color: #ffffff;
+}
+
+.textscreen {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  color: #dadfe8;
+  padding: 15px;
+}
+
+.divScreentext {
+  background-color: #118eea;
+  display: flex;
+  justify-content: center;
+}
+
+/* /////// */
+
+.div1showrupees {
+  display: flex;
+  flex-direction: column;
+}
+
+.toatalText {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #5a637a;
+}
+
+.totalseatbook {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42px;
+  color: #333333;
+}
+
+.btndiv {
+  display: flex;
+  align-items: center;
+}
+
+.btn1 {
+  border: 1px solid #5a637a;
+  border-radius: 5.06667px;
+  width: 199px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-transform: capitalize;
+  color: #1a2c50;
+}
+
+.btn1:hover {
+  color: #fff;
+  background-color: #1a2c50;
+}
+
+.btn2 {
+  margin-left: 10px;
+  background-color: #1a2c50;
+  color: #ffbe00;
+  border-radius: 5.06667px;
+  width: 199px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-transform: capitalize;
+}
+
+.btn2:hover {
+  color: #ffbe00;
+  background-color: #1a2c50;
+}
+
+.active {
+  background-color: #118eea;
+  color: #fff;
+}

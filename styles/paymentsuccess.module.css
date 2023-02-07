@@ -1,0 +1,41 @@
+.moviebooktext {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 66px;
+  text-transform: capitalize;
+  color: #333333;
+}
+
+.moviebooktext2 {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  color: #5a637a;
+  width: 40rem;
+  padding-top: 52px;
+}
+
+.btndownloadTicket {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #9da8be;
+  margin-top: 36px;
+  border: 1.5px solid #5a637a;
+  border-radius: 8px;
+  height: 64px;
+}
+
+.btndownloadTicket:hover {
+  background-color: #1a2c50;
+  color: #efefef;
+}
