@@ -66,7 +66,7 @@
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.3);
   border-radius: 13px;
   width: 499px;
-  height: 655px;
+  height: 675px;
   margin-top: 8rem;
   margin-bottom: 100px;
 }
@@ -98,6 +98,16 @@
   font-size: 16px;
   line-height: 19px;
   color: #333333;
+  padding-top: 10px;
+}
+
+.confirmordertext2coupen {
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #0d7df5;
   padding-top: 10px;
 }
 

@@ -5,6 +5,7 @@ import { areaType } from '../types/constants/city.type';
 import { ratingType } from '../types/constants/rating.type';
 import { adsDataType } from '../types/constants/adsData.type';
 import { seatDatasType } from '../types/constants/seatDatas.type';
+import { coupenListType } from '../types/constants/coupenList.type';
 
 export const moviesListing: moviesListingType[] = [
   {
@@ -1688,5 +1689,18 @@ export const seatDatas: seatDatasType[] = [
     Booked: false,
     Available: true,
     Selected: false,
+  },
+];
+
+export const coupenList: coupenListType[] = [
+  {
+    name: 'FLAT100',
+    id: 'flaatHundred',
+    price: 100,
+  },
+  {
+    name: 'FLAT50',
+    id: 'flaatFifty',
+    price: 50,
   },
 ];

@@ -31,7 +31,8 @@
 }
 
 .gridin {
-  padding-left: 130px;
+  /* padding-left: 130px; */
+  text-align: center;
 }
 
 .idtext {
@@ -56,4 +57,17 @@
 
 .gridpswd {
   padding-top: 26px !important;
+}
+
+@media only screen and (max-width: 800px) {
+  .paper {
+    width: 100%;
+    margin: 0px;
+    margin-top: 25px;
+  }
+
+  .gridin {
+    padding-left: 0px;
+    text-align: center;
+  }
 }

@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import style from '../styles/confirmPayment.module.css';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, Chip, Divider, Snackbar, TextField, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { useSelector } from 'react-redux';
 // import { movieDataActions } from '../../src/store';
 import Header from '../src/components/common/Header';
 import Footer from '../src/components/common/Footer';
 
+import { coupenList } from '../src/data/mainData';
+
 import { useSelector } from '../src/store/index';
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
 
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
 import {
@@ -27,9 +31,19 @@ import {
   isPast,
   getDate,
 } from 'date-fns';
+import { padding } from '@mui/system';
 
 const Confirmpayment = () => {
   const router = useRouter();
+
+  const [btn, setBtn] = useState<boolean>(true);
+  const [warn, setWarn] = useState<boolean>(false);
+  const [warnServerity, setWarnServerity] = useState<string>();
+  const [warnMsg, setWarnMsg] = useState<string>();
+  const [coupenPrice, setCoupenPrice] = useState<number>(0);
+
+  const [coupenText, setCoupenText] = useState<string>();
+  const [coupenPriceText, setCoupenPriceText] = useState<number>();
 
   //Redux Setup
   //   let selectedMovieShowData = useSelector(
@@ -53,10 +67,80 @@ const Confirmpayment = () => {
     router.back();
   };
 
+  const AddCoupen = () => {
+    // console.log('getValue', document.getElementById('standard-basic').value);
+    setCoupenText(document.getElementById('standard-basic').value);
+
+    if (selectedMovieShowData.total > coupenPriceText) {
+      coupenList.map((item) => {
+        if (document.getElementById('standard-basic').value === item.name) {
+          console.log('OK');
+          setCoupenPrice(item.price);
+          // setWarn(true);
+          // setWarnServerity('success');
+          // setWarnMsg('Successfully Applied');
+          setBtn(false);
+        } else {
+          console.log('not OK');
+          // setWarnMsg('Coupen Not Found');
+          // setWarn(true);
+          // setWarnServerity('error');
+        }
+      });
+
+      if (
+        document.getElementById('standard-basic').value === 'FLAT100' ||
+        document.getElementById('standard-basic').value === 'FLAT50'
+      ) {
+        setWarn(true);
+        setWarnServerity('success');
+        setWarnMsg('Successfully Applied');
+        console.log('data');
+      } else {
+        setWarnMsg('Coupen Not Found');
+        setWarn(true);
+        setWarnServerity('error');
+      }
+    } else {
+      setWarnMsg('Coupen Not Applicable');
+      setWarn(true);
+      setWarnServerity('error');
+    }
+    // if(coupenList.includes())
+  };
+
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+    // setBtn(false);
+    setWarn(true);
+    setWarnMsg('Coupen Remove');
+    setWarnServerity('success');
+    setCoupenPrice(0);
+    setBtn(true);
+  };
+
+  const handleClose = () => {
+    setWarn(false);
+  };
+
+  const handleChangeCoupenField = (e: any) => {
+    coupenList.map((data) => {
+      if (e.target.value === data.name) {
+        setCoupenPriceText(data.price);
+      }
+    });
+  };
+
   return (
     <>
-      {/* <div style={{ backgroundColor: 'white' }}> */}
       <MaxWidthWrapper>
+        {warn && (
+          <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={warnServerity} sx={{ width: '100%' }}>
+              {warnMsg}
+            </Alert>
+          </Snackbar>
+        )}
         <Header />
         <Box sx={{ display: 'flex', flexDirection: { lg: 'row', xs: 'column' } }}>
           <Box sx={{ width: { lg: '40%', xs: '100%' }, paddingTop: '50px' }}>
@@ -210,18 +294,7 @@ const Confirmpayment = () => {
                     justifyContent: 'space-between',
                     paddingBottom: '30px',
                   }}
-                >
-                  {/* <Typography className={style.confirmordertext2} gutterBottom>
-                    BIAYA LAYANAN
-                  </Typography>
-
-                  <Typography className={style.confirmordertext2} gutterBottom>
-                    Rp.3.000
-                    <span style={{ fontWeight: 'bold', paddingLeft: '10px' }}>
-                      X3
-                    </span>
-                  </Typography> */}
-                </div>
+                ></div>
 
                 <Divider />
                 <Box
@@ -247,17 +320,77 @@ const Confirmpayment = () => {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    paddingBottom: '30px',
+                    paddingBottom: '10px',
+                    alignItems: 'center',
                   }}
                 >
-                  <Typography className={style.confirmordertext2} gutterBottom>
-                    PROMO TIX ID
-                  </Typography>
+                  {btn ? (
+                    <>
+                      <TextField
+                        id="standard-basic"
+                        onChange={(e) => handleChangeCoupenField(e)}
+                        // label="Coupen Code"
+                        variant="outlined"
+                        inputProps={{
+                          sx: {
+                            padding: '10px',
+                          },
+                        }}
+                        // sx={{ }}
+                      />
 
-                  <Typography className={style.confirmordertext2} gutterBottom>
-                    - Rp. 70.000
-                  </Typography>
+                      <Button
+                        sx={{ backgroundColor: '#1a2c50', padding: '10px', height: 'fit-content' }}
+                        onClick={AddCoupen}
+                        variant="contained"
+                      >
+                        <AddIcon sx={{ mr: 1 }} />
+                        apply coupen
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Chip
+                        label={coupenText}
+                        variant="outlined"
+                        // onClick={handleDeleteCoupen}
+                        onDelete={handleDelete}
+                      />
+                    </>
+                  )}
                 </div>
+
+                {!btn && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      paddingBottom: '20px',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    {/* {coupenList.map((data) => {
+                    return (
+                      <>
+                      <Typography
+                      className={style.confirmordertext2coupen}
+                      sx={{ color: 'blue' }}
+                      gutterBottom
+                      >
+                      {data.name}
+                      </Typography>
+                      </>
+                      );
+                    })} */}
+
+                    <Typography className={style.confirmordertext2} gutterBottom>
+                      {coupenText}
+                    </Typography>
+
+                    <Typography className={style.confirmordertext2} gutterBottom>
+                      -{coupenPrice}.000
+                    </Typography>
+                  </Box>
+                )}
 
                 <Divider />
 
@@ -266,7 +399,7 @@ const Confirmpayment = () => {
                     Total
                   </Typography>
                   <Typography className={style.confirmordertotal} gutterBottom>
-                    Rp. {selectedMovieShowData.total - 70}.000
+                    Rp. {selectedMovieShowData.total - coupenPrice}.000
                   </Typography>
                 </div>
                 <Divider />
