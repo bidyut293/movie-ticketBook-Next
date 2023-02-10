@@ -11,7 +11,7 @@ export interface movieDataType {
   TimeHH: any;
   TimeMM: any;
   Director: any;
-  Rating1: any;
+  rating1: any;
   Text?: string;
   date?: string;
   day?: string;

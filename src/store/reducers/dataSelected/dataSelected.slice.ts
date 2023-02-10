@@ -3,15 +3,13 @@ import { SelectedMoviesType } from '../../../types/redux/selectedMovies.type';
 
 const initialState: SelectedMoviesType = {
   movie: {
-    Director: '',
-    Genera: '',
-    Rating1: '',
-    TimeMM: '',
-    category1: '',
-    category2: '',
-    category3: '',
-    id: 0,
-    linkImg: '',
+    date: 0,
+    selectedTime: 0,
+    movieId: '',
+    showTimeAll: [],
+    theatreName: '',
+    theatreType: '',
+    ticketPrice: 0,
     title: '',
   },
 };

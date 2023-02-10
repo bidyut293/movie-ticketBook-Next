@@ -186,3 +186,16 @@
   background-color: #118eea;
   color: #fff;
 }
+
+@media only screen and (max-width: 900px) {
+  .divcardseatmain {
+    overflow: scroll;
+  }
+  .div1showrupees {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .div1showrupees {
+    text-align: center;
+  }
+}

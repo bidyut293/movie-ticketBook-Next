@@ -1,25 +1,24 @@
-import React from 'react'
-import Image from 'next/image'
-import style from '../../styles/homepage.module.css'
-import { Box, Link } from '@mui/material'
+import React from 'react';
+import Image from 'next/image';
+import style from '../../../styles/homepage.module.css';
+import { Box, Link } from '@mui/material';
 
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/Typography';
 
-import logo from '../../public/images/homepageImage/homePage/flogo.png'
-import playStore from '../../public/images/homepageImage/homePage/playStore.png'
-import appleStore from '../../public/images/homepageImage/homePage/playStore.png'
+import logo from '../../../public/images/homepageImage/homePage/flogo.png';
+import playStore from '../../../public/images/homepageImage/homePage/playStore.png';
+import appleStore from '../../../public/images/homepageImage/homePage/playStore.png';
 
-import insta from '../../../Images/homePage/instagram.png'
+import insta from '../../../Images/homePage/instagram.png';
 
-import InstagramIcon from '@mui/icons-material/Instagram'
-import TwitterIcon from '@mui/icons-material/Twitter'
-import FacebookIcon from '@mui/icons-material/Facebook'
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const Footer = () => {
   return (
     <Box>
       <Box
-        // className={style.divFoot}
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -41,8 +40,8 @@ const Footer = () => {
               fontFamily: 'system-ui',
               fontStyle: 'normal',
               fontWeight: '500',
-              fontSize: {lg:'18px',xs: '12px' },
-              lineHeight: {lg:'40px'},
+              fontSize: { lg: '18px', xs: '12px' },
+              lineHeight: { lg: '40px' },
               display: 'flex',
               alignItems: 'center',
               textAlign: 'center',
@@ -57,8 +56,8 @@ const Footer = () => {
               fontFamily: 'Roboto',
               fontStyle: 'normal',
               fontWeight: '400',
-              fontSize: {lg:'16px',xs: '10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -81,8 +80,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs: '10px', },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -105,8 +104,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs: '10px'},
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -135,8 +134,8 @@ const Footer = () => {
               // lineHeight: '40px',
               // fontSize: {lg:'18px', xs: '80px'},
               // lineHeight: {lg:'40px', xs: '60px'},
-              fontSize: {lg:'18px',xs: '12px'},
-              lineHeight: {lg:'40px'},
+              fontSize: { lg: '18px', xs: '12px' },
+              lineHeight: { lg: '40px' },
               display: 'flex',
               alignItems: 'center',
               textAlign: 'center',
@@ -153,8 +152,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs: '10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -177,8 +176,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px', xs:'10px'},
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -201,8 +200,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px'},
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -224,8 +223,8 @@ const Footer = () => {
               fontStyle: 'normal',
               fontWeight: '400',
               // fontSize: '16px',
-              fontSize: {lg:'16px',xs:'10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               // lineHeight: '42px',
               /* identical to box height, or 150% */
               display: 'flex',
@@ -249,8 +248,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -279,8 +278,8 @@ const Footer = () => {
               // lineHeight: '40px',
               // fontSize: {lg:'18px', xs: '80px'},
               // lineHeight: {lg:'40px', xs: '60px'},
-              fontSize: {lg:'18px',xs:'12px'},
-              lineHeight: {lg:'40px'},
+              fontSize: { lg: '18px', xs: '12px' },
+              lineHeight: { lg: '40px' },
               display: 'flex',
               alignItems: 'center',
               textAlign: 'center',
@@ -297,8 +296,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px'},
-              lineHeight: {lg:'42px',},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -321,8 +320,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px' },
-              lineHeight: {lg:'42px',},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -345,8 +344,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px'},
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -369,8 +368,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -393,8 +392,8 @@ const Footer = () => {
               fontWeight: '400',
               // fontSize: '16px',
               // lineHeight: '42px',
-              fontSize: {lg:'16px',xs:'10px' },
-              lineHeight: {lg:'42px'},
+              fontSize: { lg: '16px', xs: '10px' },
+              lineHeight: { lg: '42px' },
               /* identical to box height, or 150% */
               display: 'flex',
               alignItems: 'center',
@@ -423,8 +422,8 @@ const Footer = () => {
               // lineHeight: '40px',
               // fontSize: {lg:'18px', xs: '60px'},
               // lineHeight: {lg:'40px', xs: '60px'},
-              fontSize: {lg:'18px',xs:'12px' },
-              lineHeight: {lg:'40px'},
+              fontSize: { lg: '18px', xs: '12px' },
+              lineHeight: { lg: '40px' },
               display: 'flex',
               alignItems: 'center',
               textAlign: 'center',
@@ -444,12 +443,12 @@ const Footer = () => {
               <InstagramIcon
                 // className={style.sociallogof}
                 sx={{
-                  margin: {lg:'15px', xs: '10px'},
+                  margin: { lg: '15px', xs: '10px' },
                   marginLeft: '1px',
                   cursor: 'pointer',
                   color: '#333333',
-                  width: {lg: '1em',xs: '15px'},
-                  height: {lg: '1em',xs: '15px'}
+                  width: { lg: '1em', xs: '15px' },
+                  height: { lg: '1em', xs: '15px' },
                 }}
               />
             </Box>
@@ -458,12 +457,12 @@ const Footer = () => {
               <TwitterIcon
                 sx={{
                   // margin: '15px',
-                  margin: {lg:'15px', xs: '10px'},
+                  margin: { lg: '15px', xs: '10px' },
                   marginLeft: '1px',
                   cursor: 'pointer',
                   color: '#333333',
-                  width: {lg: '1em',xs: '15px'},
-                  height: {lg: '1em',xs: '15px'}
+                  width: { lg: '1em', xs: '15px' },
+                  height: { lg: '1em', xs: '15px' },
                 }}
               />
             </Box>
@@ -472,12 +471,12 @@ const Footer = () => {
               <FacebookIcon
                 sx={{
                   // margin: '15px',
-                  margin: {lg:'15px', xs: '10px'},
+                  margin: { lg: '15px', xs: '10px' },
                   marginLeft: '1px',
                   cursor: 'pointer',
                   color: '#333333',
-                  width: {lg: '1em',xs: '15px'},
-                  height: {lg: '1em',xs: '15px'}
+                  width: { lg: '1em', xs: '15px' },
+                  height: { lg: '1em', xs: '15px' },
                 }}
               />
             </Box>
@@ -492,8 +491,8 @@ const Footer = () => {
                 fontFamily: 'system-ui',
                 fontStyle: 'normal',
                 fontWeight: '500',
-                fontSize: {lg:'18px',xs:'9px'},
-                lineHeight: {lg:'60px'},
+                fontSize: { lg: '18px', xs: '9px' },
+                lineHeight: { lg: '60px' },
                 // color: 'black',
               }}
             >
@@ -521,8 +520,8 @@ const Footer = () => {
                 fontFamily: 'system-ui',
                 fontStyle: 'normal',
                 fontWeight: '400',
-                fontSize: {lg:'12px', xs: '10px'},
-                lineHeight: {lg:'90px'},
+                fontSize: { lg: '12px', xs: '10px' },
+                lineHeight: { lg: '90px' },
                 display: 'flex',
                 alignItems: 'center',
               }}
@@ -533,7 +532,7 @@ const Footer = () => {
         </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

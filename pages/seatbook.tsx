@@ -11,25 +11,41 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import Header from '../src/common/Header';
-import Footer from '../src/common/Footer';
+import Header from '../src/components/common/Header';
+import Footer from '../src/components/common/Footer';
 
 import clocklogo from '../public/images/homepageImage/homePage/clock.png';
 import { useRouter } from 'next/router';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/system';
 import Alert from '@mui/material/Alert';
-// import { movieDataActions } from '../../src/store';
 
-import { useSelector } from '../src/store/index'
+import { useSelector } from '../src/store/index';
 
-import { useDispatch } from '../src/store'
-import { getData } from '../src/store/reducers/dataSelected/dataSelected.slice'
+import { useDispatch } from '../src/store';
+import { getData } from '../src/store/reducers/dataSelected/dataSelected.slice';
 
-import { seatDatas } from '../src/data/data';
+import { seatDatas } from '../src/data/mainData';
 import { seatDatasType } from '../src/types/constants/seatDatas.type';
 
-import MaxWidthWrapper from '../src/common/MaxWidthWrapper'
+import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
+
+import {
+  hoursToMinutes,
+  getYear,
+  getTime,
+  getHours,
+  getUnixTime,
+  format,
+  addDays,
+  eachDayOfInterval,
+  fromUnixTime,
+  addHours,
+  getMonth,
+  getDay,
+  isPast,
+  getDate,
+} from 'date-fns';
+import NotFoundMsg from '../src/components/common/NotFoundMsg';
 
 // interface sample_seatDatas {
 //   id: any;
@@ -1209,15 +1225,11 @@ const Seatbook = () => {
   const router = useRouter();
 
   // //Redux Setup
-  let selectedMovieShowData = useSelector(
-    (state) => state.dataSelectedSlice.movie
-  );
+  let selectedMovieShowData = useSelector((state) => state.dataSelectedSlice.movie);
 
   const dispatch = useDispatch();
 
   const [seatData, setSeatData] = useState<Array<seatDatasType>>([]);
-  const [reduxData, setReduxData] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState();
 
   const [updatedData, setUpdatedData] = useState();
   const [showKursi, setShowKursi] = useState(false);
@@ -1231,43 +1243,32 @@ const Seatbook = () => {
   useEffect(() => {
     setSeatData(seatDatas);
     console.log('selectedMovieShowData', selectedMovieShowData);
-    setSelectedSeats(selectedMovieShowData);
-    setTime(selectedMovieShowData.showTime);
+    setTime(selectedMovieShowData.selectedTime);
   }, []);
 
   const handleClickBooking = () => {
     // dispatch(movieDataActions.getMovieData(passingData));
-    dispatch(getData({
-      movie: passingData
-    }))
-
-    console.log('selectedSeats', passingData);
+    dispatch(
+      getData({
+        movie: passingData,
+      })
+    );
     router.push('./confirmpayment/');
   };
 
-  const handleTime = ( val: any) => {
-    console.log('value', val);
-    setTime(val);
-    // setSelectedSeats({ ...selectedSeats, showTime: val });
+  const handleTime = (e: any, val: any) => {
+    console.log('value', getUnixTime(val), val);
+    setTime(getUnixTime(val));
+  };
+
+  const handleClickChangeDate = () => {
+    // router.push('./movie/');
   };
 
   const handleDateClick = (data: any) => {
-    // var element = document.getElementById('card');
-    // element.classList.add('active');
-
-    console.log('data', data);
-    // setSeatData({ ...setSeatData, Selected: true });
+    console.log('data', data, time);
 
     const upd_obj = seatData.map((obj) => {
-      // if (obj.Selected) {
-      //   bs.push(obj);
-      //   console.log('bs.length', bs.length);
-      //   if (bs.length > 7) {
-      //     setShowKursi(true);
-      //     return;
-      //   }
-      // }
-
       if (obj.name == data.name) {
         console.log('obj', obj);
         obj.Selected = !data.Selected;
@@ -1285,19 +1286,16 @@ const Seatbook = () => {
       }
     });
 
-    // let tota = 150;
-    // let sum = tota * bs.length;
-    setTotal(selectedMovieShowData.showPrice * bs.length);
+    setTotal(selectedMovieShowData.ticketPrice * bs.length);
 
-    // setTotal(150);
     setPassingData({
       ...selectedMovieShowData,
-      showTime: time,
+      selectedTime: time,
       selectedSeat: bs,
-      total: selectedMovieShowData.showPrice * bs.length,
+      total: selectedMovieShowData.ticketPrice * bs.length,
     });
 
-    console.log("totallll",total,bs.length)
+    console.log('totallll', total, bs.length);
     console.log('bs_new', bs);
     setSeatData(upd_obj);
     console.log('upd_obj', upd_obj);
@@ -1312,16 +1310,8 @@ const Seatbook = () => {
       {/* <div style={{ backgroundColor: 'white' }}> */}
       <MaxWidthWrapper>
         {showKursi && (
-          <Snackbar
-            open={showKursi}
-            autoHideDuration={3000}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: '100%' }}
-            >
+          <Snackbar open={showKursi} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
               You Reach Maximum number of seat Booking
             </Alert>
           </Snackbar>
@@ -1330,11 +1320,7 @@ const Seatbook = () => {
 
         <div className={style.divmainseatbook}>
           <div>
-            <Typography
-              className={style.selectseattext}
-              color="text.secondary"
-              gutterBottom
-            >
+            <Typography className={style.selectseattext} color="text.secondary" gutterBottom>
               Select seat
             </Typography>
 
@@ -1349,27 +1335,25 @@ const Seatbook = () => {
           </div>
 
           <div>
-            <div
-              style={{
+            <Box
+              sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                paddingLeft: '30px',
-                paddingRight: '30px',
-                paddingTop: '60px',
+                flexDirection: { lg: 'row', xs: 'column' },
+                paddingLeft: { lg: '30px', xs: '0px' },
+                paddingRight: { lg: '30px', xs: '0px' },
+                paddingTop: { lg: '60px', xs: '30px' },
                 paddingBottom: '35px',
               }}
             >
               <div>
-                <Image
-                  src={clocklogo}
-                  alt="clocklogo"
-                  style={{ marginTop: '5px' }}
-                />
+                <Image src={clocklogo} alt="clocklogo" style={{ marginTop: '5px' }} />
                 <TextField
                   id="standard-select-currency-native"
                   variant="standard"
                   select
-                  defaultValue={selectedMovieShowData.showTime}
+                  defaultValue={selectedMovieShowData.selectedTime}
+                  // {format(fromUnixTime(item.date), 'E')}
                   //   SelectProps={{
                   //     native: true,
                   //   }}
@@ -1379,30 +1363,34 @@ const Seatbook = () => {
                     style: { fontSize: 25, marginLeft: '10px' },
                   }}
                 >
+                  {console.log('getTime', selectedMovieShowData.selectedTime)}
                   {selectedMovieShowData.showTimeAll.map((option) => (
+                    // {console.log('first',option.time)}
                     <MenuItem
-                      key={option.showTime}
-                      value={option.showTime}
-                      onClick={(event) => handleTime(event, option.showTime)}
+                      key={getUnixTime(option.time)}
+                      value={getUnixTime(option.time)}
+                      onClick={(event) => handleTime(event, option.time)}
+                      disabled={isPast(option.time)}
                     >
-                      {option.showTime}
+                      {option.time.getHours()}:00
                     </MenuItem>
                   ))}
                 </TextField>
               </div>
 
-              <div
-                style={{
+              <Box
+                sx={{
                   display: 'flex',
                   alignItems: 'center',
+                  paddingTop: { lg: '0px', xs: '30px' },
                 }}
               >
-                <div style={{ display: 'flex', marginLeft: '15px' }}>
+                <Box sx={{ display: 'flex', marginLeft: { lg: '15px', xs: '10px' } }}>
                   <div className={style.divbox1}></div>
                   <Typography className={style.textbox1} gutterBottom>
                     Booked
                   </Typography>
-                </div>
+                </Box>
 
                 <div style={{ display: 'flex', marginLeft: '15px' }}>
                   <div className={style.divbox2}></div>
@@ -1417,8 +1405,8 @@ const Seatbook = () => {
                     Selected
                   </Typography>
                 </div>
-              </div>
-            </div>
+              </Box>
+            </Box>
 
             <div>
               <div className={style.divcardseatmain}>
@@ -1430,12 +1418,14 @@ const Seatbook = () => {
                       <div
                         style={{
                           marginRight:
-                            {lg : data.name
-                              .split('')
-                              .splice(1, data.name.split('').length)
-                              .join('') === '10'
-                              ? '50px'
-                              : '0px', xs: '0px'}
+                            // {
+                            // lg:
+                            data.name.split('').splice(1, data.name.split('').length).join('') ===
+                            '10'
+                              ? '100px'
+                              : '0px',
+                          // xs: '0px',
+                          // },
                           //   marginLeft:
                           //     data.name
                           //       .split('')
@@ -1514,12 +1504,13 @@ const Seatbook = () => {
           </Typography>
         </div> */}
 
-        <div
-          style={{
+        <Box
+          sx={{
             display: 'flex',
+            flexDirection: { lg: 'row', xs: 'column' },
             justifyContent: 'space-evenly',
             paddingTop: '50px',
-            paddingBottom: '80px',
+            paddingBottom: { lg: '80px', xs: '40px' },
           }}
         >
           <div className={style.div1showrupees}>
@@ -1536,7 +1527,7 @@ const Seatbook = () => {
               Kursi
             </Typography>
 
-            <Box style={{ display: 'flex' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               {seatData.map((item, index) => {
                 return (
                   <>
@@ -1554,22 +1545,19 @@ const Seatbook = () => {
             <Button
               variant="outlined"
               className={style.btn1}
-              //   onClick={handleClickBooking}
+              onClick={handleClickChangeDate}
+              // onClick={() => router.back()}
             >
               Change date
             </Button>
-            <Button
-              variant="contained"
-              className={style.btn2}
-              onClick={handleClickBooking}
-            >
+            <Button variant="contained" className={style.btn2} onClick={handleClickBooking}>
               Confirm
             </Button>
           </div>
-        </div>
+        </Box>
 
         <Footer />
-      {/* </div> */}
+        {/* </div> */}
       </MaxWidthWrapper>
     </>
   );

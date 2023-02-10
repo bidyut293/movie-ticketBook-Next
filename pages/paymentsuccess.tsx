@@ -2,18 +2,18 @@ import { Button, Typography } from '@mui/material';
 import React from 'react';
 import Image from 'next/image';
 // import bookedlogo from '../../Images/homePage/booked.png';
-import bookedlogo from '../public/images/homepageImage/homePage/booked.png'
+import bookedlogo from '../public/images/homepageImage/homePage/booked.png';
 
 import style from '../styles/paymentsuccess.module.css';
-import Header from '../src/common/Header';
-import Footer from '../src/common/Footer';
-import MaxWidthWrapper from '../src/common/MaxWidthWrapper'
+import Header from '../src/components/common/Header';
+import Footer from '../src/components/common/Footer';
+import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
 
 const Paymentsuccess = () => {
   return (
     <>
       {/* <div style={{ backgroundColor: 'white' }}> */}
-    <MaxWidthWrapper>
+      <MaxWidthWrapper>
         <Header />
         <div
           style={{
@@ -31,8 +31,8 @@ const Paymentsuccess = () => {
           <Image src={bookedlogo} alt="bookedImage" />
 
           <Typography className={style.moviebooktext2} gutterBottom>
-            Lorem ipsum dolor sit amet. Et velit quos et debitis quia et
-            consectetur pariatur et totam pariatur.
+            Lorem ipsum dolor sit amet. Et velit quos et debitis quia et consectetur pariatur et
+            totam pariatur.
           </Typography>
 
           <Button
@@ -44,7 +44,7 @@ const Paymentsuccess = () => {
           </Button>
         </div>
         <Footer />
-      {/* </div> */}
+        {/* </div> */}
       </MaxWidthWrapper>
     </>
   );

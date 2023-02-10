@@ -5,27 +5,41 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { useSelector } from 'react-redux';
 // import { movieDataActions } from '../../src/store';
-import Header from '../src/common/Header';
-import Footer from '../src/common/Footer';
+import Header from '../src/components/common/Header';
+import Footer from '../src/components/common/Footer';
 
 import { useSelector } from '../src/store/index';
 
-import MaxWidthWrapper from '../src/common/MaxWidthWrapper'
+import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
+import {
+  hoursToMinutes,
+  getYear,
+  getTime,
+  getHours,
+  getUnixTime,
+  format,
+  addDays,
+  eachDayOfInterval,
+  fromUnixTime,
+  addHours,
+  getMonth,
+  getDay,
+  isPast,
+  getDate,
+} from 'date-fns';
 
 const Confirmpayment = () => {
   const router = useRouter();
 
   //Redux Setup
-//   let selectedMovieShowData = useSelector(
-//     (state) => state.selectedMovieData.selectedMovieData
-//   );
+  //   let selectedMovieShowData = useSelector(
+  //     (state) => state.selectedMovieData.selectedMovieData
+  //   );
 
   // //Redux Setup
-  let selectedMovieShowData = useSelector(
-    (state) => state.dataSelectedSlice.movie
-  );
+  let selectedMovieShowData = useSelector((state) => state.dataSelectedSlice.movie);
 
-//   const selectedShow = useSelector((state) => state.showData.selectedData);
+  //   const selectedShow = useSelector((state) => state.showData.selectedData);
 
   useEffect(() => {
     console.log('selectedMovieShowData', selectedMovieShowData);
@@ -36,7 +50,7 @@ const Confirmpayment = () => {
   };
 
   const handlebackpage = () => {
-    router.push('./seatbook/');
+    router.back();
   };
 
   return (
@@ -44,10 +58,8 @@ const Confirmpayment = () => {
       {/* <div style={{ backgroundColor: 'white' }}> */}
       <MaxWidthWrapper>
         <Header />
-        <div style={{ display: 'flex' }}>
-          <div
-            style={{ width: '40%', paddingTop: '50px' }}
-          >
+        <Box sx={{ display: 'flex', flexDirection: { lg: 'row', xs: 'column' } }}>
+          <Box sx={{ width: { lg: '40%', xs: '100%' }, paddingTop: '50px' }}>
             <div style={{ paddingBottom: '30px' }}>
               <Typography className={style.confirmText1} gutterBottom>
                 confirm booking
@@ -60,7 +72,7 @@ const Confirmpayment = () => {
               </Typography>
             </div>
 
-            <div style={{ paddingRight: '80px' }}>
+            <Box sx={{ paddingRight: { lg: '80px', xs: '10px' } }}>
               <Typography className={style.confirmText3} gutterBottom>
                 Film name
               </Typography>
@@ -69,7 +81,7 @@ const Confirmpayment = () => {
                 {/* SPIDERMAN NO WAY HOME */}
                 {selectedMovieShowData.title}
               </Typography>
-            </div>
+            </Box>
 
             <Divider style={{ width: '85%' }} />
 
@@ -82,7 +94,9 @@ const Confirmpayment = () => {
 
               <Typography className={style.confirmText3name} gutterBottom>
                 {/* wednesday, 17 DEcEMBER 2021 */}
-                {selectedMovieShowData.day},{selectedMovieShowData.date} 2022
+                {format(fromUnixTime(selectedMovieShowData.date), 'EEEE')},
+                {format(fromUnixTime(selectedMovieShowData.date), 'd LLLL')} -{' '}
+                {format(fromUnixTime(selectedMovieShowData.date), 'y')}
               </Typography>
             </div>
             <Divider style={{ width: '85%' }} />
@@ -101,7 +115,7 @@ const Confirmpayment = () => {
                 </Typography>
 
                 <Typography className={style.confirmText3name} gutterBottom>
-                  {selectedMovieShowData.name2}
+                  {selectedMovieShowData.theatreType}
                 </Typography>
               </div>
               <div style={{ paddingLeft: '80px' }}>
@@ -110,7 +124,8 @@ const Confirmpayment = () => {
                 </Typography>
 
                 <Typography className={style.confirmText3name} gutterBottom>
-                  {selectedMovieShowData.showTime}
+                  {fromUnixTime(selectedMovieShowData.selectedTime).getHours()}:00
+                  {/* {option.time.getHours()}:00 */}
                 </Typography>
               </div>
             </div>
@@ -121,18 +136,18 @@ const Confirmpayment = () => {
                 Ticket ({selectedMovieShowData.selectedSeat.length})
               </Typography>
 
-              <Box sx={{display: "flex"}}>
-
-              {selectedMovieShowData.selectedSeat.map((data, i) => {
+              <Box sx={{ display: 'flex' }}>
+                {selectedMovieShowData.selectedSeat.map((data, i) => {
                   return (
-                  <>
-                    <Typography className={style.confirmText3name} gutterBottom>
-                      {data.name}{i == selectedMovieShowData.selectedSeat.length - 1 ? "" : ","}
-                    </Typography>
-                  </>
-                );
-            })}
-            </Box>
+                    <>
+                      <Typography className={style.confirmText3name} gutterBottom>
+                        {data.name}
+                        {i == selectedMovieShowData.selectedSeat.length - 1 ? '' : ','}
+                      </Typography>
+                    </>
+                  );
+                })}
+              </Box>
             </div>
             <Divider style={{ width: '85%' }} />
 
@@ -143,16 +158,20 @@ const Confirmpayment = () => {
                 display: 'flex',
               }}
             >
-              <ArrowBackIcon
-                onClick={handlebackpage}
-                className={style.arrowbackbtn}
-              />
+              <ArrowBackIcon onClick={handlebackpage} className={style.arrowbackbtn} />
               <Typography className={style.confirmText4} gutterBottom>
                 return
               </Typography>
             </div>
-          </div>
-          <Box sx={{ width: '60%', display: 'flex', justifyContent: {lg:'end'} }}>
+          </Box>
+
+          <Box
+            sx={{
+              width: { lg: '60%', xs: '100%' },
+              display: 'flex',
+              justifyContent: { lg: 'end' },
+            }}
+          >
             <div className={style.divconfirmpapermain}>
               <div
                 style={{
@@ -171,16 +190,14 @@ const Confirmpayment = () => {
                   Details
                 </Typography>
 
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography className={style.confirmordertext2} gutterBottom>
                     REGULAR SEAT
                   </Typography>
 
                   <Typography className={style.confirmordertext2} gutterBottom>
                     {/* Rp. 50.000 */}
-                    Rp.{selectedMovieShowData.showPrice}
+                    Rp.{selectedMovieShowData.ticketPrice}
                     <span style={{ fontWeight: 'bold', paddingLeft: '10px' }}>
                       X{selectedMovieShowData.selectedSeat.length}
                     </span>
@@ -207,12 +224,13 @@ const Confirmpayment = () => {
                 </div>
 
                 <Divider />
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "space-between"
-                }} >
-
-                <Typography className={style.confirmordertext2} gutterBottom>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Typography className={style.confirmordertext2} gutterBottom>
                     Sub Total
                   </Typography>
 
@@ -243,9 +261,7 @@ const Confirmpayment = () => {
 
                 <Divider />
 
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography className={style.confirmordertotal} gutterBottom>
                     Total
                   </Typography>
@@ -255,13 +271,8 @@ const Confirmpayment = () => {
                 </div>
                 <Divider />
 
-                <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <Typography
-                    className={style.confirmorderpaymentmode}
-                    gutterBottom
-                  >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Typography className={style.confirmorderpaymentmode} gutterBottom>
                     payment mode
                   </Typography>
                   <Typography className={style.paymentmodecard} gutterBottom>
@@ -283,9 +294,9 @@ const Confirmpayment = () => {
               </div>
             </div>
           </Box>
-        </div>
+        </Box>
         <Footer />
-      {/* </div> */}
+        {/* </div> */}
       </MaxWidthWrapper>
     </>
   );

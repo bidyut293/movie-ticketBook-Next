@@ -8,7 +8,7 @@ export interface theatreListingType {
     type: string;
     name: string;
     time: Array<{
-      time: number;
+      time: Date;
       price: number;
     }>;
   }>;

@@ -1,23 +1,8 @@
-// import { NextPage } from 'next';
-// import { moviesListing } from '../../src/data/data';
-
-// interface SelectedMoviePageProps {
-//   movieData: any;
-// }
-
-// const SelectedMoviePage: NextPage<SelectedMoviePageProps> = ({ movieData }) => {
-//   return <></>;
-// };
-//
-// export default SelectedMoviePage;
-
 import React, { useContext, useEffect, useState } from 'react';
 import style from '../../styles/selectedMovie.module.css';
 import Image from 'next/image';
 import { NextPage } from 'next';
-
 // import { Context } from '../../public/contextApi/auth-context';
-
 import {
   Typography,
   Grid,
@@ -29,7 +14,6 @@ import {
 } from '@mui/material';
 import Card from '@mui/material/Card';
 import { styled, alpha } from '@mui/material/styles';
-import Header from '../../src/common/Header';
 import InputBase from '@mui/material/InputBase';
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -38,24 +22,15 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import starico from '../../public/images/homepageImage/homePage/Star.png';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Autoplay, Pagination, Navigation } from 'swiper';
-import Footer from '../../src/common/Footer';
+import { Pagination, Navigation } from 'swiper';
 import { useRouter } from 'next/router';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { movieDataActions } from '../../src/store';
 
 import { Box } from '@mui/system';
 
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-
-import imag1 from '../public/images/homepageImage/homePage/img1.png';
-
-import { timeDatas } from '../../src/data/data';
 import { timeDataType } from '../../src/types/constants/time.type';
 
 import { useSelector } from '../../src/store/index';
@@ -66,73 +41,32 @@ import { selectedTimeDataType } from '../../src/types/constants/timeData.type';
 
 import { useDispatch } from '../../src/store';
 import { getData } from '../../src/store/reducers/dataSelected/dataSelected.slice';
-import MaxWidthWrapper from '../../src/common/MaxWidthWrapper';
-
+import MaxWidthWrapper from '../../src/components/common/MaxWidthWrapper';
+import notFoundLogo from '../../public/images/homepageImage/nodatafound.png';
 import {
-  hoursToMinutes,
-  getYear,
-  getTime,
-  getHours,
+  getUnixTime,
   format,
   addDays,
   eachDayOfInterval,
+  fromUnixTime,
   addHours,
+  getMonth,
+  getDay,
+  isPast,
+  getDate,
 } from 'date-fns';
 import { moviesListing, theatreListing, area } from '../../src/data/mainData';
-
 import { GetServerSideProps } from 'next';
-// import {add} from 'date-fns/add'
+
+import Header from '../../src/components/common/Header';
+import Footer from '../../src/components/common/Footer';
+import { theatreListingType } from '../../src/types/constants/theatreListing.type';
+import NotFoundMsg from '../../src/components/common/NotFoundMsg';
 
 interface sample_currencies {
   value: any;
   label: any;
 }
-const currencies: sample_currencies[] = [
-  {
-    value: 'vesu',
-    label: 'Vesu',
-  },
-  {
-    value: 'bhatar',
-    label: 'Bhatar',
-  },
-  {
-    value: 'varacha',
-    label: 'Varacha',
-  },
-  {
-    value: 'udhna',
-    label: 'Udhna',
-  },
-];
-
-const currencies1: sample_currencies[] = [
-  {
-    value: 'studio',
-    label: 'Studio',
-  },
-  {
-    value: 'sortir',
-    label: 'Sortir',
-  },
-  {
-    value: 'bioskop',
-    label: 'Bioskop',
-  },
-  {
-    value: 'meteor',
-    label: 'Meteor',
-  },
-];
-
-// const styles = {
-
-//       // Adding media query..
-//       '@media (max-width: 600px)': { margin: '20px', color: 'black', width: '41vw' },
-//       '@media screen and (min-width: 900px) and (max-width: 1200px)': {
-//         margin: '20px', color: 'black', width: '41vw'
-//       }
-//     }
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -199,14 +133,11 @@ const dateFunc = () => {
   let tempArray: any[] = [];
   _9Days.forEach((day) => {
     tempArray.push({
-      date: format(day, 'd LLL'),
-      day: format(day, 'E'),
+      date: getUnixTime(day),
     });
   });
   return tempArray;
 };
-
-const currentHours = getHours(new Date());
 
 interface SelectedMoviePageProps {
   selectedMovieData: any;
@@ -223,8 +154,9 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
   const [date, setDate] = useState<timeSlotType>();
   const [timeData, setTimeData] = useState<selectedTimeDataType>();
   const [warn, setWarn] = useState<boolean>(false);
-
+  const [currentHours, setCurrentHours] = useState<number | undefined>();
   const [id, setId] = useState();
+  const [theatreListingData, setTheatreListingData] = useState<Array<theatreListingType>>([]);
 
   //Redux Setup
   const selectedShow = useSelector((state) => state.dataSelectedSlice.movie);
@@ -235,24 +167,15 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
 
   let dateArray = dateFunc();
   useEffect(() => {
-    console.log('current Time', getHours(new Date()));
-    console.log('movieData22', selectedMovieData);
-    // console.log('ghghg', getYear(new Date()));
-    // console.log('getinterval', hoursToMinutes(2.5));
-    // console.log('getTime', format(new Date(), 'H'));
-
-    // theatreListing.map((theatreData) => {
-    //   if (selectedMovieData.category.includes(theatreData.id)) {
-    //     console.log('theatreData', theatreData);
-    //   }
-    // });
-    // const result = addHours(new Date(2014, 6, 10, 8, 0), 2);
-    // console.log('sdfsdf', result.getHours());
-    // console.log('hour', new Date(2014, 6, 10, 8, 0).getHours());
-
-    // console.log('1330489800000');
-    // console.log(format(new Date(), 'M LLL'));
-    // console.log('getSelectedMovieData', selectedShow);
+    let theatrelist: any = [];
+    theatreListing.map((item, ind) => {
+      if (selectedMovieData.category.includes(item.id)) {
+        console.log('item', item);
+        theatrelist.push(item);
+      }
+    });
+    setTheatreListingData(theatrelist);
+    setCurrentHours(dateArray[0].date);
     setTimeCard(dateArray);
     setData(timeSlots);
   }, []);
@@ -260,34 +183,33 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
   useEffect(() => {
     if (timeData) {
       console.log('timeData', timeData);
-      //   dispatch(getData({
-      //   movie: timeData
-      // }))
     }
   }, [timeData]);
 
-  const handleDateClick = () => {
-    // let selectedCard = document.getElementById('');
-    console.log('handleDateClick');
-  };
-
+  //HandleClick here
   const handleClickdate = (data: any, id: any) => {
-    console.log('handleClickdate called', data, id);
+    console.log('handleClickdate called', data, id, currentHours);
     setDate(data);
     setWarn(true);
-
+    setCurrentHours(data.date);
     setId(id);
-
-    // setTimeCard({...timeCard,isSelected: true})
   };
 
-  const handleDateClickTime = (time: any, showTime: any, theatreName: any, theatreType: any) => {
+  const handleDateClickTime = (
+    time: any,
+    showTime: any,
+    theatreName: any,
+    theatreType: any,
+    movieId: string
+  ) => {
     if (date) {
-      console.log('handleDateClickTime', time);
+      console.log('handleDateClickTime', getUnixTime(time.time));
       console.log('showTime', showTime);
       setTimeData({
         ...date,
-        ...time,
+        movieId: movieId,
+        selectedTime: getUnixTime(time.time),
+        ticketPrice: time.price,
         showTimeAll: showTime,
         title: selectedMovieData.title,
         theatreName: theatreName,
@@ -297,7 +219,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
     } else {
       console.log('no data selected');
     }
-    console.log('timeData'), timeData;
+    console.log('timeData', timeData);
   };
 
   const handleClickBooking = () => {
@@ -306,12 +228,35 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
         movie: timeData,
       })
     );
-    router.push('./seatbook/');
+    router.push({ pathname: '/seatbook' });
+
     console.log('timeData', timeData);
   };
 
   const handleClose = () => {
     setWarn(false);
+  };
+
+  const handleAreaClick = (e: any, data: any) => {
+    let filterData: any = [];
+    console.log('getData', data);
+    theatreListing.map((item, ind) => {
+      console.log('items', item);
+      if (item.address.includes(data)) {
+        console.log('data', item);
+        filterData.push(item);
+      }
+    });
+
+    if (data == 'All') {
+      theatreListing.map((item, ind) => {
+        if (selectedMovieData.category.includes(item.id)) {
+          console.log('item', item);
+          filterData.push(item);
+        }
+      });
+    }
+    setTheatreListingData(filterData);
   };
 
   // Sorting Here-------
@@ -354,7 +299,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
   // };
 
   return (
-    // <Box sx={{ backgroundColor: 'white',width: {xs: 'fit-content',lg: '100%'} }}>
     <MaxWidthWrapper>
       {warn && (
         <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
@@ -405,7 +349,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     position: 'relative',
                   }}
                 >
-                  {/* <Box className="swiper-button image-swiper-button-next"> */}
                   <Box
                     sx={{
                       position: 'absolute',
@@ -418,7 +361,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                   >
                     <ChevronRightIcon style={{ color: '#333333' }} />
                   </Box>
-                  {/* <Box className="swiper-button image-swiper-button-prev"> */}
                   <Box id={style.swiperbtnleft} className="swiper-button image-swiper-button-prev">
                     <KeyboardArrowLeftIcon style={{ color: '#333333' }} />
                   </Box>
@@ -426,12 +368,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     slidesPerView={5}
                     spaceBetween={1}
                     slidesPerGroup={1}
-                    // id={style.swipertimebtn}
                     style={{ margin: '20px', color: 'black', width: '41vw' }}
-                    // style={styles}
-
-                    // loop={true}
-                    // loopFillGroupWithBlank={true}
                     pagination={{
                       clickable: true,
                     }}
@@ -444,9 +381,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     className="mySwiper"
                   >
                     {timeCard.map((item, ind) => {
-                      {
-                        console.log('getid and ind', id, ind);
-                      }
                       return (
                         <>
                           <SwiperSlide
@@ -478,7 +412,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                                 className={style.DateText}
                                 sx={{ fontSize: 14, padding: '10px' }}
                               >
-                                {item.date}
+                                {format(fromUnixTime(item.date), 'd LLL')}
                               </Typography>
 
                               <Typography
@@ -493,9 +427,8 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                                   },
                                 }}
                               >
-                                {item.day}
+                                {format(fromUnixTime(item.date), 'E')}
                               </Typography>
-                              {/* </Box> */}
                             </Button>
                           </SwiperSlide>
                         </>
@@ -541,6 +474,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                       sx={{ fontSize: { xs: '20px' } }}
                       key={option.value}
                       value={option.value}
+                      onClick={(e) => handleAreaClick(e, option.value)}
                     >
                       {option.name}
                     </MenuItem>
@@ -575,8 +509,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
               </Box>
 
               <Box>
-                {/* {data.length === 0 return <Typography>No matching</Typography>;} */}
-                {theatreListing.map((item, ind) => {
+                {theatreListingData.map((item, ind) => {
                   if (selectedMovieData.category.includes(item.id)) {
                     return (
                       <>
@@ -697,8 +630,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
 
                                   <Box className={style.griditemdiv}>
                                     {type.time.map((time, ind) => {
-                                      // {console.log("typeshow",type.show)}
-                                      //   const formattedTime = format(type.time, 'kk:mm');
                                       return (
                                         <>
                                           <Box
@@ -710,16 +641,18 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                                             <Button
                                               sx={{
                                                 border:
-                                                  time.time > currentHours
-                                                    ? '1px solid #5A637A'
-                                                    : '0px',
-                                                // border: '1px solid #5A637A',
+                                                  isPast(time.time) &&
+                                                  isPast(fromUnixTime(currentHours))
+                                                    ? '0px'
+                                                    : '1px solid #5A637A',
                                                 borderRadius: '5px',
                                                 color: '#1a2c50',
                                                 fontSize: '17px',
                                                 backgroundColor:
-                                                  time.time > currentHours ? '#fff' : '#DADFE8',
-                                                // backgroundColor: '#fff',
+                                                  isPast(time.time) &&
+                                                  isPast(fromUnixTime(currentHours))
+                                                    ? '#DADFE8'
+                                                    : '#fff',
                                                 '&:hover': {
                                                   color: '#fff',
                                                   backgroundColor: '#1a2c50',
@@ -732,35 +665,23 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                                                 },
                                               }}
                                               id="card"
-                                              disabled={time.time > currentHours ? false : true}
-                                              // className={style.cardTime}
+                                              disabled={
+                                                isPast(time.time) &&
+                                                isPast(fromUnixTime(currentHours))
+                                                  ? true
+                                                  : false
+                                              }
                                               onClick={() =>
                                                 handleDateClickTime(
                                                   time,
                                                   type.time,
                                                   item.name,
-                                                  type.name
+                                                  type.name,
+                                                  item.id
                                                 )
                                               }
                                             >
-                                              {/* <CardContent
-                                              style={{
-                                                paddingBottom: '10px',
-                                                backgroundColor: time.selected
-                                                  ? '#DADFE8'
-                                                  : '',
-                                              }}
-                                            >
-                                              <Typography
-                                                className={style.DateText2}
-                                                sx={{ fontSize: 14 }}
-                                                color="text.secondary"
-                                                gutterBottom
-                                              >
-                                                {time.showTime}
-                                              </Typography>
-                                            </CardContent> */}
-                                              {time.time}:00
+                                              {time.time.getHours()}:00
                                             </Button>
                                           </Box>
                                         </>
@@ -774,6 +695,15 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                         </Box>
                       </>
                     );
+                  } else {
+                    return (
+                      <>
+                        <Box sx={{ margin: '30px' }}>
+                          <Typography variant="h6">No Theatre Found</Typography>
+                          <Image src={notFoundLogo} alt="no found dat" width={400} height={400} />
+                        </Box>
+                      </>
+                    );
                   }
                 })}
               </Box>
@@ -783,10 +713,10 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
           {timeData && (
             <Grid item xs={12} lg={5}>
               <Box
-                style={{
+                sx={{
                   display: 'flex',
-                  paddingLeft: '80px',
-                  paddingTop: '190px',
+                  paddingLeft: { lg: '80px', xs: '0px' },
+                  paddingTop: { lg: '190px', xs: '100px' },
                   flexDirection: 'column',
                 }}
               >
@@ -794,23 +724,14 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                   sx={{
                     height: '50vh',
                     overflow: 'hidden',
-                    // borderRadius: '15px',
                   }}
                 >
-                  <Image
-                    src={selectedMovieData.linkImg}
-                    // src={imag1}
-                    alt="data"
-                    width={400}
-                    height={550}
-                    // className={style.imagestarlogo}
-                  />
+                  <Image src={selectedMovieData.linkImg} alt="data" width={400} height={550} />
                 </Box>
 
                 <Box>
                   <Typography variant="h4" className={style.nameMovie}>
                     {selectedMovieData.title}
-                    {/* Spider : No Way To Home */}
                   </Typography>
 
                   <Box
@@ -826,14 +747,12 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     </Typography>
                     <Typography variant="h4" className={style.category2}>
                       {selectedMovieData.genre}
-                      {/* Mystery */}
                     </Typography>
                   </Box>
 
                   <Box
                     sx={{
                       display: 'flex',
-                      // width: '40%',
                       width: { lg: '70%', xs: '100%' },
                       justifyContent: 'space-between',
                       paddingTop: '20px',
@@ -850,7 +769,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                   <Box
                     sx={{
                       display: 'flex',
-                      // width: '40%',
                       width: { lg: '70%', xs: '100%' },
                       justifyContent: 'space-between',
                       paddingTop: '20px',
@@ -861,14 +779,12 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     </Typography>
                     <Typography variant="h4" className={style.category2}>
                       {selectedMovieData.director}
-                      {/* Bidyut Samanta */}
                     </Typography>
                   </Box>
 
                   <Box
                     sx={{
                       display: 'flex',
-                      // width: '40%',
                       width: { lg: '70%', xs: '100%' },
                       justifyContent: 'space-between',
                       paddingTop: '20px',
@@ -879,7 +795,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     </Typography>
                     <Typography variant="h4" className={style.category2}>
                       {selectedMovieData.rating1}
-                      {/* 5star */}
                     </Typography>
                   </Box>
                 </Box>
@@ -908,7 +823,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                         gutterBottom
                       >
                         {timeData.theatreName}
-                        {/* ghjgjgjg */}
                       </Typography>
 
                       <Typography
@@ -917,8 +831,9 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                         color="text.secondary"
                         gutterBottom
                       >
-                        {timeData.day},{timeData.date} 2022
-                        {/* Mon, 15th Jul 2021 */}
+                        {format(fromUnixTime(timeData.date), 'E')},
+                        {format(fromUnixTime(timeData.date), 'd LLL')} -{' '}
+                        {format(fromUnixTime(timeData.date), 'y')}
                       </Typography>
 
                       <Box
@@ -934,16 +849,15 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                           gutterBottom
                         >
                           {timeData.theatreType}
-                          {/* cineplex */}
                         </Typography>
+
                         <Typography
                           className={style.selectThatre3}
                           sx={{ fontSize: 14 }}
                           color="text.secondary"
                           gutterBottom
                         >
-                          {timeData.time}:00
-                          {/* 7:40 */}
+                          {fromUnixTime(timeData.selectedTime).getHours()}:00
                         </Typography>
                       </Box>
 
@@ -979,9 +893,6 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.query.movieSlug;
-
-  console.log('getidincontext11', id);
-  // Logic- Find selected movie with slug as identifier from movieList
   const selectedMovieData = moviesListing.find((movie) => movie.slug === id);
 
   console.log('selectedMovieData', selectedMovieData);

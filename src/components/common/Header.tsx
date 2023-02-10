@@ -1,9 +1,9 @@
-import { Box } from '@mui/system'
-import React from 'react'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
+import { Box } from '@mui/system';
+import React from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 // import style from '../../../styles/homepage.module.css'
-import style from '../../styles/homepage.module.css'
+import style from '../../../styles/homepage.module.css';
 import {
   Avatar,
   Divider,
@@ -14,34 +14,34 @@ import {
   MenuItem,
   Tooltip,
   Typography,
-} from '@mui/material'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
-import { Logout, PersonAdd, Settings } from '@mui/icons-material'
-import logo from '../../public/images/homepageImage/homePage/logo.png'
+} from '@mui/material';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { Logout, PersonAdd, Settings } from '@mui/icons-material';
+import logo from '../../../public/images/homepageImage/homePage/logo.png';
 
 interface ActiveChatsProps {}
 
 const Header: React.FC<ActiveChatsProps> = () => {
-  const router = useRouter()
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const open = Boolean(anchorEl)
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
 
   const handleLogout = () => {
-    console.log('clear')
-    window.localStorage.clear()
-    router.push('/login')
-  }
+    console.log('clear');
+    window.localStorage.clear();
+    router.push('/login');
+  };
 
   const handleClickHome = () => {
-    router.push('/')
-  }
+    router.push({ pathname: '/' });
+  };
 
   // const handleClicMovies = () => {
   //   router.push('/')
@@ -55,7 +55,7 @@ const Header: React.FC<ActiveChatsProps> = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           // padding: '70px',
-          paddingTop: {lg:'20px', xs:'13px'},
+          paddingTop: { lg: '20px', xs: '13px' },
         }}
       >
         <Box
@@ -68,20 +68,20 @@ const Header: React.FC<ActiveChatsProps> = () => {
             display: 'flex',
             alignItems: 'center',
             textAlign: 'center',
-            width: 'fit-content'
+            width: 'fit-content',
           }}
         >
-          <Typography sx={{ minWidth: {lg:100} }}>
+          <Typography sx={{ minWidth: { lg: 100 } }}>
             <Link
-              href="#"
+              href="/"
               underline="none"
               onClick={handleClickHome}
               sx={{
                 color: 'black',
                 fontWeight: '500',
                 fontFamily: 'system-ui',
-                fontSize: {lg: '1rem',xs: '13px'},
-                paddingRight: {lg: '0px', xs: '10px'},
+                fontSize: { lg: '1rem', xs: '13px' },
+                paddingRight: { lg: '0px', xs: '10px' },
                 '&:hover': {
                   textDecoration: 'underline',
                   color: 'black',
@@ -91,18 +91,18 @@ const Header: React.FC<ActiveChatsProps> = () => {
               Home
             </Link>
           </Typography>
-          <Typography sx={{ minWidth: {lg:100} }}>
+          <Typography sx={{ minWidth: { lg: 100 } }}>
             <Link
-            onClick={handleClickHome}
-              href="#"
+              onClick={handleClickHome}
+              href="/"
               underline="none"
               sx={{
                 color: 'black',
                 fontWeight: '500',
                 fontFamily: 'system-ui',
                 // fontSize: {lg: '1rem'},
-                fontSize: {lg: '1rem',xs: '13px'},
-                paddingRight: {lg: '0px', xs: '10px'},
+                fontSize: { lg: '1rem', xs: '13px' },
+                paddingRight: { lg: '0px', xs: '10px' },
                 '&:hover': {
                   textDecoration: 'underline',
                   color: 'black',
@@ -112,17 +112,17 @@ const Header: React.FC<ActiveChatsProps> = () => {
               Movies
             </Link>
           </Typography>
-          <Typography sx={{ minWidth: {lg:100} }}>
+          <Typography sx={{ minWidth: { lg: 100 } }}>
             <Link
-              href="#"
+              href="/"
               underline="none"
               sx={{
                 color: 'black',
                 fontWeight: '500',
                 fontFamily: 'system-ui',
                 // fontSize: {lg: '1rem'},
-                fontSize: {lg: '1rem',xs: '13px'},
-                paddingRight: {lg: '0px', xs: '10px'},
+                fontSize: { lg: '1rem', xs: '13px' },
+                paddingRight: { lg: '0px', xs: '10px' },
                 '&:hover': {
                   textDecoration: 'underline',
                   color: 'black',
@@ -132,16 +132,14 @@ const Header: React.FC<ActiveChatsProps> = () => {
               Payments
             </Link>
           </Typography>
-          <Typography sx={{ minWidth: {lg:100} }}>
-            <Link
-              href="#"
-              underline="none"
-              sx={{ color: '#333333', paddingTop: '5px' }}
-            >
-              <NotificationsNoneIcon sx={{
-                width: {lg: '1em'},
-                height: {lg: '1em'}
-              }} />
+          <Typography sx={{ minWidth: { lg: 100 } }}>
+            <Link href="#" underline="none" sx={{ color: '#333333', paddingTop: '5px' }}>
+              <NotificationsNoneIcon
+                sx={{
+                  width: { lg: '1em' },
+                  height: { lg: '1em' },
+                }}
+              />
             </Link>
           </Typography>
           <Tooltip title="Account settings">
@@ -154,7 +152,12 @@ const Header: React.FC<ActiveChatsProps> = () => {
               aria-expanded={open ? 'true' : undefined}
             >
               <Avatar
-                sx={{ width: {lg:35, }, height: {lg:35, }, fontSize: {lg: '1.25rem',}, backgroundColor: '#F2C46F' }}
+                sx={{
+                  width: { lg: 35 },
+                  height: { lg: 35 },
+                  fontSize: { lg: '1.25rem' },
+                  backgroundColor: '#F2C46F',
+                }}
               >
                 B
               </Avatar>
@@ -224,7 +227,7 @@ const Header: React.FC<ActiveChatsProps> = () => {
         </MenuItem>
       </Menu>
     </Box>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

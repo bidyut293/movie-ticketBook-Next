@@ -1,0 +1,59 @@
+.bgImage {
+  background-image: url('../public/images/loginPage/Picture.png');
+  /* min-height: 380px; */
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  /* border: 1px solid red; */
+}
+
+.backImage {
+  /* padding: 0px; */
+  width: 100%;
+  height: 100vh;
+}
+
+.paper {
+  /* background-color: aliceblue; */
+  /* width: 200px;
+    height: 300px; */
+  /* width: fit-content; */
+  width: 600px;
+  margin: 68px;
+  display: flex;
+  float: right;
+}
+
+.gridlabel {
+  padding-top: 50px !important;
+}
+
+.gridin {
+  padding-left: 130px;
+}
+
+.idtext {
+  font-size: 23px;
+  font-family: Roboto;
+  font-weight: 600;
+  padding-top: 60px;
+  color: #000000;
+  font-style: normal;
+}
+.phoneContainer {
+  padding: 20px;
+}
+
+.phone {
+  width: 60%;
+}
+
+.phonebutton:hover {
+  background-color: transparent;
+}
+
+.gridpswd {
+  padding-top: 26px !important;
+}
