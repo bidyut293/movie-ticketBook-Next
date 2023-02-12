@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import style from '../styles/seatbook.module.css';
 
+import AuthComponent from '../src/components/common/AuthComponent';
+
 import {
   Button,
   Card,
@@ -1265,9 +1267,24 @@ const Seatbook = () => {
     // router.push('./movie/');
   };
 
+  let count: number = 0;
+  let j = 0;
   const handleDateClick = (data: any) => {
-    console.log('data', data, time);
+    // console.log('data', data, time);
 
+    console.log('gett11', bs);
+
+    // seatData.map((item, ind) => {
+    //   if (item.Selected) {
+    //     if (count < 6) {
+    //       count++;
+    //       console.log('count', count);
+    //     }
+    //   }
+    // });
+    // console.log('count', count);
+
+    // if (count < 6) {
     const upd_obj = seatData.map((obj) => {
       if (obj.name == data.name) {
         console.log('obj', obj);
@@ -1277,28 +1294,31 @@ const Seatbook = () => {
       return obj;
     });
 
-    let j = 0;
     bs = [];
     upd_obj.map((data) => {
       if (data.Selected) {
         j++;
+        console.log('push', bs.length);
         bs.push(data);
       }
     });
 
-    setTotal(selectedMovieShowData.ticketPrice * bs.length);
+    if (bs.length < 6) {
+      setPassingData({
+        ...selectedMovieShowData,
+        selectedTime: time,
+        selectedSeat: bs,
+        total: selectedMovieShowData.ticketPrice * bs.length,
+      });
 
-    setPassingData({
-      ...selectedMovieShowData,
-      selectedTime: time,
-      selectedSeat: bs,
-      total: selectedMovieShowData.ticketPrice * bs.length,
-    });
+      console.log('totallll', total, bs.length);
+      console.log('bs_new', bs);
+      setTotal(selectedMovieShowData.ticketPrice * bs.length);
+      setSeatData(upd_obj);
 
-    console.log('totallll', total, bs.length);
-    console.log('bs_new', bs);
-    setSeatData(upd_obj);
-    console.log('upd_obj', upd_obj);
+      console.log('upd_obj', upd_obj);
+    }
+    // }
   };
 
   const handleClose = () => {
@@ -1306,8 +1326,7 @@ const Seatbook = () => {
   };
 
   return (
-    <>
-      {/* <div style={{ backgroundColor: 'white' }}> */}
+    <AuthComponent>
       <MaxWidthWrapper>
         {showKursi && (
           <Snackbar open={showKursi} autoHideDuration={3000} onClose={handleClose}>
@@ -1528,12 +1547,13 @@ const Seatbook = () => {
             </Typography>
 
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              {seatData.map((item, index) => {
+              {bs.map((item, index) => {
                 return (
                   <>
                     {item.Selected && (
                       <Typography className={style.totalseatbook} gutterBottom>
-                        {item.name},
+                        {item.name}
+                        {index == bs.length - 1 ? '' : ','}
                       </Typography>
                     )}
                   </>
@@ -1559,7 +1579,7 @@ const Seatbook = () => {
         <Footer />
         {/* </div> */}
       </MaxWidthWrapper>
-    </>
+    </AuthComponent>
   );
 };
 

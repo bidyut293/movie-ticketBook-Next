@@ -8,11 +8,11 @@ import style from '../styles/paymentsuccess.module.css';
 import Header from '../src/components/common/Header';
 import Footer from '../src/components/common/Footer';
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
+import AuthComponent from '../src/components/common/AuthComponent';
 
 const Paymentsuccess = () => {
   return (
-    <>
-      {/* <div style={{ backgroundColor: 'white' }}> */}
+    <AuthComponent>
       <MaxWidthWrapper>
         <Header />
         <div
@@ -46,7 +46,7 @@ const Paymentsuccess = () => {
         <Footer />
         {/* </div> */}
       </MaxWidthWrapper>
-    </>
+    </AuthComponent>
   );
 };
 

@@ -62,6 +62,7 @@ import Header from '../../src/components/common/Header';
 import Footer from '../../src/components/common/Footer';
 import { theatreListingType } from '../../src/types/constants/theatreListing.type';
 import NotFoundMsg from '../../src/components/common/NotFoundMsg';
+import AuthComponent from '../../src/components/common/AuthComponent';
 
 interface sample_currencies {
   value: any;
@@ -299,595 +300,600 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
   // };
 
   return (
-    <MaxWidthWrapper>
-      {warn && (
-        <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-            Please Select the Time to watch Movie
-          </Alert>
-        </Snackbar>
-      )}
-      <Header />
-      <Box>
-        <Grid container spacing={2}>
-          <Grid item xs={12} lg={7}>
-            <Box sx={{ paddingTop: '70px' }}>
-              <Typography
-                variant="h4"
-                sx={{
-                  fontFamily: 'system-ui',
-                  fontStyle: 'normal',
-                  fontWeight: '700',
-                  fontSize: { lg: '36px', xs: '30px' },
-                  lineHeight: { lg: '42px', xs: '45px' },
-                  textTransform: 'capitalize',
-                  color: '#333333',
-                }}
-              >
-                Select Date
-              </Typography>
-
-              <Typography
-                variant="h4"
-                sx={{
-                  fontFamily: 'system-ui',
-                  fontStyle: 'normal',
-                  fontWeight: '400',
-                  fontSize: { lg: '16px', xs: '16px' },
-                  lineHeight: { lg: '60px', xs: '20px' },
-                  color: '#414a63',
-                }}
-              >
-                Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora aut
-              </Typography>
-
-              <Box>
-                <Box
+    <AuthComponent>
+      <MaxWidthWrapper>
+        {warn && (
+          <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+              Please Select the Time to watch Movie
+            </Alert>
+          </Snackbar>
+        )}
+        <Header />
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} lg={7}>
+              <Box sx={{ paddingTop: '70px' }}>
+                <Typography
+                  variant="h4"
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-start',
-                    position: 'relative',
+                    fontFamily: 'system-ui',
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    fontSize: { lg: '36px', xs: '30px' },
+                    lineHeight: { lg: '42px', xs: '45px' },
+                    textTransform: 'capitalize',
+                    color: '#333333',
                   }}
                 >
+                  Select Date
+                </Typography>
+
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontFamily: 'system-ui',
+                    fontStyle: 'normal',
+                    fontWeight: '400',
+                    fontSize: { lg: '16px', xs: '16px' },
+                    lineHeight: { lg: '60px', xs: '20px' },
+                    color: '#414a63',
+                  }}
+                >
+                  Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora aut
+                </Typography>
+
+                <Box>
                   <Box
                     sx={{
-                      position: 'absolute',
-                      top: { lg: '40%', xs: '25%' },
-                      zIndex: '10',
-                      cursor: 'pointer',
-                      right: { lg: '120px', xs: '60px' },
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      position: 'relative',
                     }}
-                    className="swiper-button image-swiper-button-next"
                   >
-                    <ChevronRightIcon style={{ color: '#333333' }} />
-                  </Box>
-                  <Box id={style.swiperbtnleft} className="swiper-button image-swiper-button-prev">
-                    <KeyboardArrowLeftIcon style={{ color: '#333333' }} />
-                  </Box>
-                  <Swiper
-                    slidesPerView={5}
-                    spaceBetween={1}
-                    slidesPerGroup={1}
-                    style={{ margin: '20px', color: 'black', width: '41vw' }}
-                    pagination={{
-                      clickable: true,
-                    }}
-                    navigation={{
-                      nextEl: '.image-swiper-button-next',
-                      prevEl: '.image-swiper-button-prev',
-                      disabledClass: 'swiper-button-disabled',
-                    }}
-                    modules={[Pagination, Navigation]}
-                    className="mySwiper"
-                  >
-                    {timeCard.map((item, ind) => {
-                      return (
-                        <>
-                          <SwiperSlide
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              width: '105px',
-                            }}
-                          >
-                            <Button
-                              sx={{
-                                border: '1px solid #5A637A',
-                                borderRadius: '8px',
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: { lg: '40%', xs: '25%' },
+                        zIndex: '10',
+                        cursor: 'pointer',
+                        right: { lg: '120px', xs: '60px' },
+                      }}
+                      className="swiper-button image-swiper-button-next"
+                    >
+                      <ChevronRightIcon style={{ color: '#333333' }} />
+                    </Box>
+                    <Box
+                      id={style.swiperbtnleft}
+                      className="swiper-button image-swiper-button-prev"
+                    >
+                      <KeyboardArrowLeftIcon style={{ color: '#333333' }} />
+                    </Box>
+                    <Swiper
+                      slidesPerView={5}
+                      spaceBetween={1}
+                      slidesPerGroup={1}
+                      style={{ margin: '20px', color: 'black', width: '41vw' }}
+                      pagination={{
+                        clickable: true,
+                      }}
+                      navigation={{
+                        nextEl: '.image-swiper-button-next',
+                        prevEl: '.image-swiper-button-prev',
+                        disabledClass: 'swiper-button-disabled',
+                      }}
+                      modules={[Pagination, Navigation]}
+                      className="mySwiper"
+                    >
+                      {timeCard.map((item, ind) => {
+                        return (
+                          <>
+                            <SwiperSlide
+                              style={{
                                 display: 'flex',
-                                flexDirection: 'column',
                                 justifyContent: 'center',
-                                backgroundColor: id == ind ? '#1a2c50' : '#fff',
-                                ':hover': {
-                                  color: '#fff',
-                                },
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                width: '105px',
                               }}
-                              className={style.cardDate}
-                              onClick={() => handleClickdate(item, ind)}
                             >
-                              <Typography
-                                variant="h5"
-                                className={style.DateText}
-                                sx={{ fontSize: 14, padding: '10px' }}
-                              >
-                                {format(fromUnixTime(item.date), 'd LLL')}
-                              </Typography>
-
-                              <Typography
-                                variant="h5"
-                                className={style.DateText2}
+                              <Button
                                 sx={{
-                                  fontSize: 14,
-                                  paddingBottom: '6px',
-                                  color: id == ind ? '#fff' : '#333333',
-                                  '&:hover': {
-                                    color: '#efefef',
+                                  border: '1px solid #5A637A',
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  justifyContent: 'center',
+                                  backgroundColor: id == ind ? '#1a2c50' : '#fff',
+                                  ':hover': {
+                                    color: '#fff',
                                   },
                                 }}
+                                className={style.cardDate}
+                                onClick={() => handleClickdate(item, ind)}
                               >
-                                {format(fromUnixTime(item.date), 'E')}
-                              </Typography>
-                            </Button>
-                          </SwiperSlide>
-                        </>
-                      );
-                    })}
-                  </Swiper>
+                                <Typography
+                                  variant="h5"
+                                  className={style.DateText}
+                                  sx={{ fontSize: 14, padding: '10px' }}
+                                >
+                                  {format(fromUnixTime(item.date), 'd LLL')}
+                                </Typography>
+
+                                <Typography
+                                  variant="h5"
+                                  className={style.DateText2}
+                                  sx={{
+                                    fontSize: 14,
+                                    paddingBottom: '6px',
+                                    color: id == ind ? '#fff' : '#333333',
+                                    '&:hover': {
+                                      color: '#efefef',
+                                    },
+                                  }}
+                                >
+                                  {format(fromUnixTime(item.date), 'E')}
+                                </Typography>
+                              </Button>
+                            </SwiperSlide>
+                          </>
+                        );
+                      })}
+                    </Swiper>
+                  </Box>
                 </Box>
-              </Box>
 
-              <Divider style={{ marginRight: '115px' }} />
+                <Divider style={{ marginRight: '115px' }} />
 
-              <Box style={{ paddingTop: '50px' }}>
-                <LocationOnOutlinedIcon
-                  sx={{
-                    color: 'black',
-                    width: { lg: '31px', xs: '25px' },
-                    height: { lg: '31px', xs: '45px' },
-                  }}
-                />
-                <TextField
-                  id="standard-select-currency"
-                  select
-                  sx={{
-                    marginLeft: '5px',
-                    width: { xs: '40vw', lg: '16vw' },
-                    fontSize: { lg: '2rem', xs: '0.3rem' },
-                  }}
-                  defaultValue="All"
-                  variant="standard"
-                  inputProps={{
-                    sx: {
-                      fontSize: { lg: '18px', xs: '20px' },
-                      minHeight: {
-                        lg: '1.4375em !important',
-                        xs: '0.4em !important',
+                <Box style={{ paddingTop: '50px' }}>
+                  <LocationOnOutlinedIcon
+                    sx={{
+                      color: 'black',
+                      width: { lg: '31px', xs: '25px' },
+                      height: { lg: '31px', xs: '45px' },
+                    }}
+                  />
+                  <TextField
+                    id="standard-select-currency"
+                    select
+                    sx={{
+                      marginLeft: '5px',
+                      width: { xs: '40vw', lg: '16vw' },
+                      fontSize: { lg: '2rem', xs: '0.3rem' },
+                    }}
+                    defaultValue="All"
+                    variant="standard"
+                    inputProps={{
+                      sx: {
+                        fontSize: { lg: '18px', xs: '20px' },
+                        minHeight: {
+                          lg: '1.4375em !important',
+                          xs: '0.4em !important',
+                        },
+                        padding: { lg: '4px 0 5px', xs: '10px 0 5px' },
                       },
-                      padding: { lg: '4px 0 5px', xs: '10px 0 5px' },
-                    },
-                  }}
-                >
-                  {area.map((option) => (
-                    <MenuItem
-                      sx={{ fontSize: { xs: '20px' } }}
-                      key={option.value}
-                      value={option.value}
-                      onClick={(e) => handleAreaClick(e, option.value)}
-                    >
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-
-              <Box
-                sx={{
-                  paddingTop: '50px',
-                  display: 'flex',
-                  paddingRight: '110px',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Box sx={{ width: { lg: '100%', xs: '100%' } }}>
-                  <Search sx={{ marginLeft: '0px' }}>
-                    <SearchIconWrapper>
-                      <SearchIcon
-                        sx={{
-                          width: { lg: '1em', xs: '1.5em' },
-                          height: { lg: '1em', xs: '1.5em' },
-                        }}
-                      />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search…"
-                      inputProps={{ 'aria-label': 'search' }}
-                    />
-                  </Search>
+                    }}
+                  >
+                    {area.map((option) => (
+                      <MenuItem
+                        sx={{ fontSize: { xs: '20px' } }}
+                        key={option.value}
+                        value={option.value}
+                        onClick={(e) => handleAreaClick(e, option.value)}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Box>
-              </Box>
 
-              <Box>
-                {theatreListingData.map((item, ind) => {
-                  if (selectedMovieData.category.includes(item.id)) {
-                    return (
-                      <>
-                        <Box style={{ paddingTop: '40px', paddingRight: '110px' }}>
-                          <Box
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                            }}
-                          >
-                            <Box style={{ display: 'flex', alignItems: 'center' }}>
-                              <Image src={starico} className={style.starlogo} alt="starlogo" />
-                              <Typography
-                                variant="h5"
-                                className="moviesh5text"
-                                sx={{
-                                  color: '#333333',
-                                  fontFamily: 'system-ui',
-                                  fontStyle: 'normal',
-                                  fontWeight: '500',
-                                  fontSize: { lg: '28px', xs: '20px' },
-                                  lineHeight: '32px',
-                                  paddingLeft: '12px',
-                                }}
-                              >
-                                {item.name}
-                              </Typography>
-                            </Box>
-
-                            <Box
-                              style={{
-                                backgroundColor: '#F2C46F',
-                                borderRadius: '4px',
-                                width: 'max-content',
-                                margin: '12px',
-                                marginTop: '12px',
-                              }}
-                            >
-                              <Typography
-                                variant="h5"
-                                sx={{
-                                  fontFamily: 'system-ui',
-                                  fontStyle: 'normal',
-                                  fontWeight: '700',
-                                  fontSize: { lg: '12px', xs: '10px' },
-                                  textAlign: 'center',
-                                  lineHeight: '24px',
-                                  color: '#FFFFFF',
-                                  padding: '0px 5px 0px 5px',
-                                }}
-                              >
-                                {item.shortForm}
-                              </Typography>
-                            </Box>
-                          </Box>
-
-                          <Typography
-                            variant="h5"
-                            className="moviesh5text"
-                            style={{
-                              color: '#5A637A',
-                              fontFamily: 'system-ui',
-                              fontStyle: 'normal',
-                              fontWeight: '400',
-                              fontSize: '16px',
-                              lineHeight: '24px',
-                              paddingTop: '13px',
-                            }}
-                          >
-                            {item.address}
-                          </Typography>
-
-                          <Box
-                            className={style.divregular}
-                            style={{ display: 'flex', flexDirection: 'column' }}
-                          >
-                            {item.show.map((type, i) => {
-                              return (
-                                <>
-                                  <Box
-                                    style={{
-                                      display: 'flex',
-                                      justifyContent: 'space-between',
-                                    }}
-                                  >
-                                    <Typography
-                                      variant="h5"
-                                      className="moviesh5text"
-                                      sx={{
-                                        color: '#5A637A',
-                                        fontFamily: 'system-ui',
-                                        fontStyle: 'normal',
-                                        fontWeight: '500',
-                                        fontSize: { lg: '24px', xs: '10px' },
-                                        lineHeight: '32px',
-                                        paddingTop: '23px',
-                                      }}
-                                    >
-                                      {type.name}
-                                    </Typography>
-
-                                    <Typography
-                                      variant="h5"
-                                      className="moviesh5text"
-                                      sx={{
-                                        color: '#5A637A',
-                                        fontFamily: 'system-ui',
-                                        fontStyle: 'normal',
-                                        fontWeight: '400',
-                                        fontSize: { lg: '18px', xs: '12px' },
-                                        lineHeight: '28px',
-                                        paddingTop: '23px',
-                                      }}
-                                    >
-                                      Rs.{type.time[0].price}
-                                    </Typography>
-                                  </Box>
-
-                                  <Box className={style.griditemdiv}>
-                                    {type.time.map((time, ind) => {
-                                      return (
-                                        <>
-                                          <Box
-                                            style={{
-                                              padding: '20px',
-                                              paddingLeft: '0px',
-                                            }}
-                                          >
-                                            <Button
-                                              sx={{
-                                                border:
-                                                  isPast(time.time) &&
-                                                  isPast(fromUnixTime(currentHours))
-                                                    ? '0px'
-                                                    : '1px solid #5A637A',
-                                                borderRadius: '5px',
-                                                color: '#1a2c50',
-                                                fontSize: '17px',
-                                                backgroundColor:
-                                                  isPast(time.time) &&
-                                                  isPast(fromUnixTime(currentHours))
-                                                    ? '#DADFE8'
-                                                    : '#fff',
-                                                '&:hover': {
-                                                  color: '#fff',
-                                                  backgroundColor: '#1a2c50',
-                                                  fontSize: '18px',
-                                                },
-                                                '&:focus': {
-                                                  color: '#fff',
-                                                  backgroundColor: '#1a2c50',
-                                                  fontSize: '18px',
-                                                },
-                                              }}
-                                              id="card"
-                                              disabled={
-                                                isPast(time.time) &&
-                                                isPast(fromUnixTime(currentHours))
-                                                  ? true
-                                                  : false
-                                              }
-                                              onClick={() =>
-                                                handleDateClickTime(
-                                                  time,
-                                                  type.time,
-                                                  item.name,
-                                                  type.name,
-                                                  item.id
-                                                )
-                                              }
-                                            >
-                                              {time.time.getHours()}:00
-                                            </Button>
-                                          </Box>
-                                        </>
-                                      );
-                                    })}
-                                  </Box>
-                                </>
-                              );
-                            })}
-                          </Box>
-                        </Box>
-                      </>
-                    );
-                  } else {
-                    return (
-                      <>
-                        <Box sx={{ margin: '30px' }}>
-                          <Typography variant="h6">No Theatre Found</Typography>
-                          <Image src={notFoundLogo} alt="no found dat" width={400} height={400} />
-                        </Box>
-                      </>
-                    );
-                  }
-                })}
-              </Box>
-            </Box>
-          </Grid>
-
-          {timeData && (
-            <Grid item xs={12} lg={5}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  paddingLeft: { lg: '80px', xs: '0px' },
-                  paddingTop: { lg: '190px', xs: '100px' },
-                  flexDirection: 'column',
-                }}
-              >
                 <Box
                   sx={{
-                    height: '50vh',
-                    overflow: 'hidden',
+                    paddingTop: '50px',
+                    display: 'flex',
+                    paddingRight: '110px',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <Image src={selectedMovieData.linkImg} alt="data" width={400} height={550} />
+                  <Box sx={{ width: { lg: '100%', xs: '100%' } }}>
+                    <Search sx={{ marginLeft: '0px' }}>
+                      <SearchIconWrapper>
+                        <SearchIcon
+                          sx={{
+                            width: { lg: '1em', xs: '1.5em' },
+                            height: { lg: '1em', xs: '1.5em' },
+                          }}
+                        />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                      />
+                    </Search>
+                  </Box>
                 </Box>
 
                 <Box>
-                  <Typography variant="h4" className={style.nameMovie}>
-                    {selectedMovieData.title}
-                  </Typography>
+                  {theatreListingData.map((item, ind) => {
+                    if (selectedMovieData.category.includes(item.id)) {
+                      return (
+                        <>
+                          <Box style={{ paddingTop: '40px', paddingRight: '110px' }}>
+                            <Box
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                              }}
+                            >
+                              <Box style={{ display: 'flex', alignItems: 'center' }}>
+                                <Image src={starico} className={style.starlogo} alt="starlogo" />
+                                <Typography
+                                  variant="h5"
+                                  className="moviesh5text"
+                                  sx={{
+                                    color: '#333333',
+                                    fontFamily: 'system-ui',
+                                    fontStyle: 'normal',
+                                    fontWeight: '500',
+                                    fontSize: { lg: '28px', xs: '20px' },
+                                    lineHeight: '32px',
+                                    paddingLeft: '12px',
+                                  }}
+                                >
+                                  {item.name}
+                                </Typography>
+                              </Box>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: { lg: '70%', xs: '100%' },
-                      justifyContent: 'space-between',
-                      paddingTop: '20px',
-                    }}
-                  >
-                    <Typography variant="h4" className={style.category2}>
-                      Genre
-                    </Typography>
-                    <Typography variant="h4" className={style.category2}>
-                      {selectedMovieData.genre}
-                    </Typography>
-                  </Box>
+                              <Box
+                                style={{
+                                  backgroundColor: '#F2C46F',
+                                  borderRadius: '4px',
+                                  width: 'max-content',
+                                  margin: '12px',
+                                  marginTop: '12px',
+                                }}
+                              >
+                                <Typography
+                                  variant="h5"
+                                  sx={{
+                                    fontFamily: 'system-ui',
+                                    fontStyle: 'normal',
+                                    fontWeight: '700',
+                                    fontSize: { lg: '12px', xs: '10px' },
+                                    textAlign: 'center',
+                                    lineHeight: '24px',
+                                    color: '#FFFFFF',
+                                    padding: '0px 5px 0px 5px',
+                                  }}
+                                >
+                                  {item.shortForm}
+                                </Typography>
+                              </Box>
+                            </Box>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: { lg: '70%', xs: '100%' },
-                      justifyContent: 'space-between',
-                      paddingTop: '20px',
-                    }}
-                  >
-                    <Typography variant="h4" className={style.category2}>
-                      Durasi
-                    </Typography>
-                    <Typography variant="h4" className={style.category2}>
-                      {selectedMovieData.duration} - minutes
-                    </Typography>
-                  </Box>
+                            <Typography
+                              variant="h5"
+                              className="moviesh5text"
+                              style={{
+                                color: '#5A637A',
+                                fontFamily: 'system-ui',
+                                fontStyle: 'normal',
+                                fontWeight: '400',
+                                fontSize: '16px',
+                                lineHeight: '24px',
+                                paddingTop: '13px',
+                              }}
+                            >
+                              {item.address}
+                            </Typography>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: { lg: '70%', xs: '100%' },
-                      justifyContent: 'space-between',
-                      paddingTop: '20px',
-                    }}
-                  >
-                    <Typography variant="h4" className={style.category2}>
-                      Sutradara
-                    </Typography>
-                    <Typography variant="h4" className={style.category2}>
-                      {selectedMovieData.director}
-                    </Typography>
-                  </Box>
+                            <Box
+                              className={style.divregular}
+                              style={{ display: 'flex', flexDirection: 'column' }}
+                            >
+                              {item.show.map((type, i) => {
+                                return (
+                                  <>
+                                    <Box
+                                      style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                      }}
+                                    >
+                                      <Typography
+                                        variant="h5"
+                                        className="moviesh5text"
+                                        sx={{
+                                          color: '#5A637A',
+                                          fontFamily: 'system-ui',
+                                          fontStyle: 'normal',
+                                          fontWeight: '500',
+                                          fontSize: { lg: '24px', xs: '10px' },
+                                          lineHeight: '32px',
+                                          paddingTop: '23px',
+                                        }}
+                                      >
+                                        {type.name}
+                                      </Typography>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      width: { lg: '70%', xs: '100%' },
-                      justifyContent: 'space-between',
-                      paddingTop: '20px',
-                    }}
-                  >
-                    <Typography variant="h4" className={style.category2}>
-                      Rating Usia
-                    </Typography>
-                    <Typography variant="h4" className={style.category2}>
-                      {selectedMovieData.rating1}
-                    </Typography>
-                  </Box>
-                </Box>
+                                      <Typography
+                                        variant="h5"
+                                        className="moviesh5text"
+                                        sx={{
+                                          color: '#5A637A',
+                                          fontFamily: 'system-ui',
+                                          fontStyle: 'normal',
+                                          fontWeight: '400',
+                                          fontSize: { lg: '18px', xs: '12px' },
+                                          lineHeight: '28px',
+                                          paddingTop: '23px',
+                                        }}
+                                      >
+                                        Rs.{type.time[0].price}
+                                      </Typography>
+                                    </Box>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: { lg: '82%', xs: '100%' },
-                    paddingTop: '50px',
-                  }}
-                >
-                  <Card
-                    sx={{
-                      border: '1px solid #5A637A',
-                      borderRadius: '8px',
-                    }}
-                    id="card"
-                    className={style.cardbooking}
-                  >
-                    <CardContent style={{ paddingTop: '25px', paddingLeft: '18px' }}>
-                      <Typography
-                        className={style.selectThatre}
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        {timeData.theatreName}
-                      </Typography>
-
-                      <Typography
-                        className={style.selectThatre2}
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        {format(fromUnixTime(timeData.date), 'E')},
-                        {format(fromUnixTime(timeData.date), 'd LLL')} -{' '}
-                        {format(fromUnixTime(timeData.date), 'y')}
-                      </Typography>
-
-                      <Box
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <Typography
-                          className={style.selectThatre3}
-                          sx={{ fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {timeData.theatreType}
-                        </Typography>
-
-                        <Typography
-                          className={style.selectThatre3}
-                          sx={{ fontSize: 14 }}
-                          color="text.secondary"
-                          gutterBottom
-                        >
-                          {fromUnixTime(timeData.selectedTime).getHours()}:00
-                        </Typography>
-                      </Box>
-
-                      <Typography
-                        className={style.selectThatre4}
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      >
-                        * Pemilihan kursi dapat dilakukan setelah ini
-                      </Typography>
-
-                      <Button
-                        variant="contained"
-                        className={style.buttonset}
-                        onClick={handleClickBooking}
-                      >
-                        Continue...
-                      </Button>
-                    </CardContent>
-                  </Card>
+                                    <Box className={style.griditemdiv}>
+                                      {type.time.map((time, ind) => {
+                                        return (
+                                          <>
+                                            <Box
+                                              style={{
+                                                padding: '20px',
+                                                paddingLeft: '0px',
+                                              }}
+                                            >
+                                              <Button
+                                                sx={{
+                                                  border:
+                                                    isPast(time.time) &&
+                                                    isPast(fromUnixTime(currentHours))
+                                                      ? '0px'
+                                                      : '1px solid #5A637A',
+                                                  borderRadius: '5px',
+                                                  color: '#1a2c50',
+                                                  fontSize: '17px',
+                                                  backgroundColor:
+                                                    isPast(time.time) &&
+                                                    isPast(fromUnixTime(currentHours))
+                                                      ? '#DADFE8'
+                                                      : '#fff',
+                                                  '&:hover': {
+                                                    color: '#fff',
+                                                    backgroundColor: '#1a2c50',
+                                                    fontSize: '18px',
+                                                  },
+                                                  '&:focus': {
+                                                    color: '#fff',
+                                                    backgroundColor: '#1a2c50',
+                                                    fontSize: '18px',
+                                                  },
+                                                }}
+                                                id="card"
+                                                disabled={
+                                                  isPast(time.time) &&
+                                                  isPast(fromUnixTime(currentHours))
+                                                    ? true
+                                                    : false
+                                                }
+                                                onClick={() =>
+                                                  handleDateClickTime(
+                                                    time,
+                                                    type.time,
+                                                    item.name,
+                                                    type.name,
+                                                    item.id
+                                                  )
+                                                }
+                                              >
+                                                {time.time.getHours()}:00
+                                              </Button>
+                                            </Box>
+                                          </>
+                                        );
+                                      })}
+                                    </Box>
+                                  </>
+                                );
+                              })}
+                            </Box>
+                          </Box>
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <Box sx={{ margin: '30px' }}>
+                            <Typography variant="h6">No Theatre Found</Typography>
+                            <Image src={notFoundLogo} alt="no found dat" width={400} height={400} />
+                          </Box>
+                        </>
+                      );
+                    }
+                  })}
                 </Box>
               </Box>
             </Grid>
-          )}
-        </Grid>
-      </Box>
 
-      <Footer />
-    </MaxWidthWrapper>
+            {timeData && (
+              <Grid item xs={12} lg={5}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    paddingLeft: { lg: '80px', xs: '0px' },
+                    paddingTop: { lg: '190px', xs: '100px' },
+                    flexDirection: 'column',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: '50vh',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <Image src={selectedMovieData.linkImg} alt="data" width={400} height={550} />
+                  </Box>
+
+                  <Box>
+                    <Typography variant="h4" className={style.nameMovie}>
+                      {selectedMovieData.title}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        width: { lg: '70%', xs: '100%' },
+                        justifyContent: 'space-between',
+                        paddingTop: '20px',
+                      }}
+                    >
+                      <Typography variant="h4" className={style.category2}>
+                        Genre
+                      </Typography>
+                      <Typography variant="h4" className={style.category2}>
+                        {selectedMovieData.genre}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        width: { lg: '70%', xs: '100%' },
+                        justifyContent: 'space-between',
+                        paddingTop: '20px',
+                      }}
+                    >
+                      <Typography variant="h4" className={style.category2}>
+                        Durasi
+                      </Typography>
+                      <Typography variant="h4" className={style.category2}>
+                        {selectedMovieData.duration} - minutes
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        width: { lg: '70%', xs: '100%' },
+                        justifyContent: 'space-between',
+                        paddingTop: '20px',
+                      }}
+                    >
+                      <Typography variant="h4" className={style.category2}>
+                        Sutradara
+                      </Typography>
+                      <Typography variant="h4" className={style.category2}>
+                        {selectedMovieData.director}
+                      </Typography>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        width: { lg: '70%', xs: '100%' },
+                        justifyContent: 'space-between',
+                        paddingTop: '20px',
+                      }}
+                    >
+                      <Typography variant="h4" className={style.category2}>
+                        Rating Usia
+                      </Typography>
+                      <Typography variant="h4" className={style.category2}>
+                        {selectedMovieData.rating1}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: { lg: '82%', xs: '100%' },
+                      paddingTop: '50px',
+                    }}
+                  >
+                    <Card
+                      sx={{
+                        border: '1px solid #5A637A',
+                        borderRadius: '8px',
+                      }}
+                      id="card"
+                      className={style.cardbooking}
+                    >
+                      <CardContent style={{ paddingTop: '25px', paddingLeft: '18px' }}>
+                        <Typography
+                          className={style.selectThatre}
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                          gutterBottom
+                        >
+                          {timeData.theatreName}
+                        </Typography>
+
+                        <Typography
+                          className={style.selectThatre2}
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                          gutterBottom
+                        >
+                          {format(fromUnixTime(timeData.date), 'E')},
+                          {format(fromUnixTime(timeData.date), 'd LLL')} -{' '}
+                          {format(fromUnixTime(timeData.date), 'y')}
+                        </Typography>
+
+                        <Box
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <Typography
+                            className={style.selectThatre3}
+                            sx={{ fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            {timeData.theatreType}
+                          </Typography>
+
+                          <Typography
+                            className={style.selectThatre3}
+                            sx={{ fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            {fromUnixTime(timeData.selectedTime).getHours()}:00
+                          </Typography>
+                        </Box>
+
+                        <Typography
+                          className={style.selectThatre4}
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                          gutterBottom
+                        >
+                          * Pemilihan kursi dapat dilakukan setelah ini
+                        </Typography>
+
+                        <Button
+                          variant="contained"
+                          className={style.buttonset}
+                          onClick={handleClickBooking}
+                        >
+                          Continue...
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Box>
+              </Grid>
+            )}
+          </Grid>
+        </Box>
+
+        <Footer />
+      </MaxWidthWrapper>
+    </AuthComponent>
   );
 };
 

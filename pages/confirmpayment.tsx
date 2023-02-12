@@ -13,6 +13,7 @@ import { coupenList } from '../src/data/mainData';
 import { useSelector } from '../src/store/index';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
+import AuthComponent from '../src/components/common/AuthComponent';
 
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
 import {
@@ -132,7 +133,7 @@ const Confirmpayment = () => {
   };
 
   return (
-    <>
+    <AuthComponent>
       <MaxWidthWrapper>
         {warn && (
           <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
@@ -431,7 +432,7 @@ const Confirmpayment = () => {
         <Footer />
         {/* </div> */}
       </MaxWidthWrapper>
-    </>
+    </AuthComponent>
   );
 };
 
