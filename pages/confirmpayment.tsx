@@ -221,7 +221,7 @@ const Confirmpayment = () => {
                 Ticket ({selectedMovieShowData.selectedSeat.length})
               </Typography>
 
-              <Box sx={{ display: 'flex' }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                 {selectedMovieShowData.selectedSeat.map((data, i) => {
                   return (
                     <>

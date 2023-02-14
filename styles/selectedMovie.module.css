@@ -62,13 +62,13 @@
   right: 131px;
 }
 
-#swiperbtnleft {
+/* #swiperbtnleft {
   position: absolute;
   top: 40%;
   z-index: 10;
   cursor: pointer;
   left: 8px;
-}
+} */
 
 .griditemdiv {
   display: grid;
@@ -189,5 +189,9 @@
   .starlogo {
     width: 20px;
     height: 20px;
+  }
+  .imageNoFound {
+    width: 300px;
+    height: 300px;
   }
 }

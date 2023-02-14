@@ -17,6 +17,8 @@ import Button from '@mui/material/Button';
 import { Alert, Snackbar } from '@mui/material';
 import { Box } from '@mui/system';
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
+import CreateAccountPopup from '../src/components/loginPage/CreateAccountPopup';
+// import AuthComponent from '../src/components/common/AuthComponent';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +29,12 @@ export default function Home() {
   const [error1, setError1] = useState(false);
   const [btn, setBtn] = useState(true);
   const [warn, setWarn] = useState<boolean>(false);
+  const [showPage, setShowPage] = useState<boolean>(false);
+  const [accountData, setAccountData] = useState<any>();
+
+  // useEffect(() => {
+  //   console.log('accountData', accountData);
+  // }, [accountData]);
 
   useEffect(() => {
     if (!error && !error1) {
@@ -35,6 +43,13 @@ export default function Home() {
       setBtn(true);
     }
   }, [error, error1]);
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      router.push('/');
+    }
+    console.log('accountData', accountData);
+  }, []);
 
   useEffect(() => {
     if (
@@ -49,10 +64,14 @@ export default function Home() {
 
   const handleChange = (event: any) => {
     console.log('phone number', event.target.value.trim().length);
-    if (event.target.value.length === 10) {
-      setError(false);
+    if (accountData) {
+      if (event.target.value === accountData.number) {
+        setError(false);
+      } else {
+        setError(true);
+      }
     } else {
-      setError(true);
+      // setWarn(false);
     }
   };
 
@@ -63,34 +82,43 @@ export default function Home() {
     );
 
     console.log('regexcheck', re.test(event.target.value), event.target.value);
-    if (event.target.value.length > 6 && re.test(event.target.value)) {
-      setError1(false);
+
+    if (accountData) {
+      if (event.target.value === accountData.password) {
+        setError1(false);
+      } else {
+        setError1(true);
+      }
     } else {
-      setError1(true);
+      // setWarn(true);
     }
+  };
+
+  const handleCreateAccount = () => {
+    setShowPage(true);
   };
 
   const handleLogin = () => {
-    console.log(
-      'check',
-      document.getElementById('standard-number').value === '' ||
-        document.getElementById('standard-textarea').value === ''
-    );
-    if (
-      document.getElementById('standard-number').value === '' ||
-      document.getElementById('standard-textarea').value === ''
-    ) {
-      setWarn(true);
-    } else {
-      localStorage.setItem('isLogin', true);
-      localStorage.setItem('name', 'bidyut');
-      router.push('/');
-    }
+    // console.log(
+    //   'check',
+    //   document.getElementById('standard-number').value === '' ||
+    //     document.getElementById('standard-textarea').value === ''
+    // );
+    // if (
+    //   document.getElementById('standard-number').value === '' ||
+    //   document.getElementById('standard-textarea').value === ''
+    // ) {
+    //   setWarn(true);
+    // } else {
+    localStorage.setItem('isLogin', true);
+    localStorage.setItem('name', 'bidyut');
+    router.push('/');
+    // }
   };
 
-  const handleClose = () => {
-    setWarn(false);
-  };
+  // const handleClose = () => {
+  //   setWarn(false);
+  // };
   console.log('btn', btn);
 
   return (
@@ -104,13 +132,13 @@ export default function Home() {
 
       <Box className={stylelogin.bgImage}>
         {/* <Image src={image} alt='image' className={stylelogin.backImage} width='400' height='100' /> */}
-        {warn && (
+        {/* {warn && (
           <Snackbar open={warn} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
               Please fill proper Email and Password
             </Alert>
           </Snackbar>
-        )}
+        )} */}
         <MaxWidthWrapper>
           <Paper elevation={3} className={stylelogin.paper}>
             <Grid container spacing={2} className={stylelogin.gridin}>
@@ -153,6 +181,7 @@ export default function Home() {
                   label="PHONE NUMBER"
                   placeholder="Enter Phone Number here"
                   type="number"
+                  name="number"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -215,11 +244,18 @@ export default function Home() {
               <Grid item xs={12} className={stylelogin.gridmain}>
                 <Button
                   variant="outlined"
-                  disabled={btn}
-                  style={{
+                  onClick={handleCreateAccount}
+                  // disabled={btn}
+                  sx={{
                     width: '72%',
                     marginBottom: '110px',
                     color: '#1A2C50',
+                    cursor: 'pointer',
+                    border: '1px solid #1A2C50',
+                    '&:hover': {
+                      color: '#fff',
+                      backgroundColor: '#1A2C50',
+                    },
                   }}
                 >
                   Create Account
@@ -227,6 +263,13 @@ export default function Home() {
               </Grid>
             </Grid>
           </Paper>
+          {showPage && (
+            <CreateAccountPopup
+              showPage={showPage}
+              setAccountData={setAccountData}
+              setShowPage={setShowPage}
+            />
+          )}
         </MaxWidthWrapper>
       </Box>
       {/* </main> */}

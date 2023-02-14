@@ -168,6 +168,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
 
   let dateArray = dateFunc();
   useEffect(() => {
+    // console.log('dateArray', dateArray);
     let theatrelist: any = [];
     theatreListing.map((item, ind) => {
       if (selectedMovieData.category.includes(item.id)) {
@@ -179,6 +180,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
     setCurrentHours(dateArray[0].date);
     setTimeCard(dateArray);
     setData(timeSlots);
+    setDate(dateArray[0]);
   }, []);
 
   useEffect(() => {
@@ -205,7 +207,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
   ) => {
     if (date) {
       console.log('handleDateClickTime', getUnixTime(time.time));
-      console.log('showTime', showTime);
+      console.log('showTime', showTime, date);
       setTimeData({
         ...date,
         movieId: movieId,
@@ -354,96 +356,137 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     <Box
                       sx={{
                         position: 'absolute',
-                        top: { lg: '40%', xs: '25%' },
+                        top: { lg: '40%', xs: '55%' },
                         zIndex: '10',
                         cursor: 'pointer',
-                        right: { lg: '120px', xs: '60px' },
+                        right: { lg: '0px', xs: '10px' },
                       }}
                       className="swiper-button image-swiper-button-next"
                     >
-                      <ChevronRightIcon style={{ color: '#333333' }} />
+                      <ChevronRightIcon sx={{ color: '#333333' }} />
                     </Box>
                     <Box
-                      id={style.swiperbtnleft}
+                      // id={style.swiperbtnleft}
+                      sx={{
+                        position: 'absolute',
+                        top: { xs: '55%', lg: '40%' },
+                        zIndex: '10',
+                        cursor: 'pointer',
+                        left: '0px',
+                      }}
                       className="swiper-button image-swiper-button-prev"
                     >
                       <KeyboardArrowLeftIcon style={{ color: '#333333' }} />
                     </Box>
-                    <Swiper
-                      slidesPerView={5}
-                      spaceBetween={1}
-                      slidesPerGroup={1}
-                      style={{ margin: '20px', color: 'black', width: '41vw' }}
-                      pagination={{
-                        clickable: true,
-                      }}
-                      navigation={{
-                        nextEl: '.image-swiper-button-next',
-                        prevEl: '.image-swiper-button-prev',
-                        disabledClass: 'swiper-button-disabled',
-                      }}
-                      modules={[Pagination, Navigation]}
-                      className="mySwiper"
-                    >
-                      {timeCard.map((item, ind) => {
-                        return (
-                          <>
-                            <SwiperSlide
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                width: '105px',
-                              }}
-                            >
-                              <Button
-                                sx={{
-                                  border: '1px solid #5A637A',
-                                  borderRadius: '8px',
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  justifyContent: 'center',
-                                  backgroundColor: id == ind ? '#1a2c50' : '#fff',
-                                  ':hover': {
-                                    color: '#fff',
-                                  },
-                                }}
-                                className={style.cardDate}
-                                onClick={() => handleClickdate(item, ind)}
-                              >
-                                <Typography
-                                  variant="h5"
-                                  className={style.DateText}
-                                  sx={{ fontSize: 14, padding: '10px' }}
-                                >
-                                  {format(fromUnixTime(item.date), 'd LLL')}
-                                </Typography>
-
-                                <Typography
-                                  variant="h5"
-                                  className={style.DateText2}
-                                  sx={{
-                                    fontSize: 14,
-                                    paddingBottom: '6px',
-                                    color: id == ind ? '#fff' : '#333333',
-                                    '&:hover': {
-                                      color: '#efefef',
-                                    },
+                    <Box sx={{ width: '100%', marginTop: { xs: '30px', lg: '0px' } }}>
+                      <Swiper
+                        slidesPerView={5}
+                        spaceBetween={0}
+                        slidesPerGroup={1}
+                        breakpoints={{
+                          0: {
+                            slidesPerView: 2,
+                            slidesPerGroup: 2,
+                          },
+                          500: {
+                            slidesPerView: 3,
+                            slidesPerGroup: 1,
+                          },
+                          650: {
+                            slidesPerView: 4,
+                            slidesPerGroup: 1,
+                          },
+                          800: {
+                            slidesPerView: 5,
+                            slidesPerGroup: 1,
+                          },
+                        }}
+                        // breakpoints={{
+                        //   0: {
+                        //     width: 100,
+                        //     slidesPerView: 2,
+                        //   },
+                        //   400: {
+                        //     width: 100,
+                        //     slidesPerView: 3,
+                        //   },
+                        // }}
+                        // style={{ margin: '20px', color: 'black', width: '41vw' }}
+                        pagination={{
+                          clickable: true,
+                        }}
+                        navigation={{
+                          nextEl: '.image-swiper-button-next',
+                          prevEl: '.image-swiper-button-prev',
+                          disabledClass: 'swiper-button-disabled',
+                        }}
+                        modules={[Pagination, Navigation]}
+                        className="mySwiper"
+                      >
+                        {timeCard.map((item, ind) => {
+                          return (
+                            <>
+                              <Box sx={{ width: '60%' }}>
+                                <SwiperSlide
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    // width: '105px',
+                                    // width: 'fit-Content',
                                   }}
                                 >
-                                  {format(fromUnixTime(item.date), 'E')}
-                                </Typography>
-                              </Button>
-                            </SwiperSlide>
-                          </>
-                        );
-                      })}
-                    </Swiper>
+                                  <Button
+                                    sx={{
+                                      border: '1px solid #5A637A',
+                                      borderRadius: '8px',
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      justifyContent: 'center',
+                                      backgroundColor:
+                                        ind == 0 ? '#1a2c50' : id == ind ? '#1a2c50' : '#fff',
+                                      ':hover': {
+                                        color: '#fff',
+                                      },
+                                    }}
+                                    className={style.cardDate}
+                                    onClick={() => handleClickdate(item, ind)}
+                                  >
+                                    <Typography
+                                      variant="h5"
+                                      className={style.DateText}
+                                      sx={{ fontSize: 14, padding: '10px' }}
+                                    >
+                                      {format(fromUnixTime(item.date), 'd LLL')}
+                                    </Typography>
+
+                                    <Typography
+                                      variant="h5"
+                                      className={style.DateText2}
+                                      sx={{
+                                        fontSize: 14,
+                                        paddingBottom: '6px',
+                                        color: ind == 0 ? '#fff' : id == ind ? '#fff' : '#333333',
+                                        '&:hover': {
+                                          color: '#efefef',
+                                        },
+                                      }}
+                                    >
+                                      {format(fromUnixTime(item.date), 'E')}
+                                    </Typography>
+                                  </Button>
+                                </SwiperSlide>
+                              </Box>
+                            </>
+                          );
+                        })}
+                      </Swiper>
+                    </Box>
                   </Box>
                 </Box>
 
-                <Divider style={{ marginRight: '115px' }} />
+                <Divider sx={{ marginRight: '0px', marginTop: '20px' }} />
 
                 <Box style={{ paddingTop: '50px' }}>
                   <LocationOnOutlinedIcon
@@ -491,7 +534,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                   sx={{
                     paddingTop: '50px',
                     display: 'flex',
-                    paddingRight: '110px',
+                    paddingRight: { lg: '110px', xs: '0px' },
                     justifyContent: 'space-between',
                   }}
                 >
@@ -518,7 +561,12 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     if (selectedMovieData.category.includes(item.id)) {
                       return (
                         <>
-                          <Box style={{ paddingTop: '40px', paddingRight: '110px' }}>
+                          <Box
+                            sx={{
+                              paddingTop: '40px',
+                              paddingRight: { lg: '110px', xs: '0px' },
+                            }}
+                          >
                             <Box
                               style={{
                                 display: 'flex',
@@ -705,7 +753,13 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                         <>
                           <Box sx={{ margin: '30px' }}>
                             <Typography variant="h6">No Theatre Found</Typography>
-                            <Image src={notFoundLogo} alt="no found dat" width={400} height={400} />
+                            <Image
+                              src={notFoundLogo}
+                              className={style.imageNoFound}
+                              alt="no found data"
+                              width={400}
+                              height={400}
+                            />
                           </Box>
                         </>
                       );
@@ -742,7 +796,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     <Box
                       sx={{
                         display: 'flex',
-                        width: { lg: '70%', xs: '100%' },
+                        width: { lg: '70%', xs: '100%', md: '50%' },
                         justifyContent: 'space-between',
                         paddingTop: '20px',
                       }}
@@ -758,7 +812,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     <Box
                       sx={{
                         display: 'flex',
-                        width: { lg: '70%', xs: '100%' },
+                        width: { lg: '70%', xs: '100%', md: '50%' },
                         justifyContent: 'space-between',
                         paddingTop: '20px',
                       }}
@@ -774,7 +828,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     <Box
                       sx={{
                         display: 'flex',
-                        width: { lg: '70%', xs: '100%' },
+                        width: { lg: '70%', xs: '100%', md: '50%' },
                         justifyContent: 'space-between',
                         paddingTop: '20px',
                       }}
@@ -790,7 +844,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     <Box
                       sx={{
                         display: 'flex',
-                        width: { lg: '70%', xs: '100%' },
+                        width: { lg: '70%', xs: '100%', md: '50%' },
                         justifyContent: 'space-between',
                         paddingTop: '20px',
                       }}
@@ -808,7 +862,7 @@ const SelectedMovie: NextPage<SelectedMoviePageProps> = ({ selectedMovieData }) 
                     sx={{
                       display: 'flex',
                       flexDirection: 'column',
-                      width: { lg: '82%', xs: '100%' },
+                      width: { lg: '90%', xs: '100%', md: '50%' },
                       paddingTop: '50px',
                     }}
                   >

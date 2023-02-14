@@ -27,6 +27,7 @@ const Footer = () => {
           paddingBottom: '65px',
           borderTop: '2px solid #bdc5d4',
           marginBottom: '0px',
+          flexWrap: 'wrap',
         }}
       >
         <Box>

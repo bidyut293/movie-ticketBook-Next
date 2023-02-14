@@ -1243,9 +1243,16 @@ const Seatbook = () => {
   const [passingData, setPassingData] = useState([]);
 
   useEffect(() => {
+    console.log('getItem22222', localStorage.getItem('seatData'));
     setSeatData(seatDatas);
     console.log('selectedMovieShowData', selectedMovieShowData);
     setTime(selectedMovieShowData.selectedTime);
+  }, []);
+
+  useEffect(() => {
+    if (bs.length > 0) {
+      setTotal(selectedMovieShowData.ticketPrice * bs.length);
+    }
   }, []);
 
   const handleClickBooking = () => {
@@ -1303,21 +1310,22 @@ const Seatbook = () => {
       }
     });
 
-    if (bs.length < 6) {
-      setPassingData({
-        ...selectedMovieShowData,
-        selectedTime: time,
-        selectedSeat: bs,
-        total: selectedMovieShowData.ticketPrice * bs.length,
-      });
+    // if (bs.length < 6) {
+    setPassingData({
+      ...selectedMovieShowData,
+      selectedTime: time,
+      selectedSeat: bs,
+      total: selectedMovieShowData.ticketPrice * bs.length,
+    });
 
-      console.log('totallll', total, bs.length);
-      console.log('bs_new', bs);
-      setTotal(selectedMovieShowData.ticketPrice * bs.length);
-      setSeatData(upd_obj);
+    console.log('totallll', total, bs.length);
+    console.log('bs_new', bs);
+    localStorage.setItem('seatData', JSON.stringify(bs));
+    setTotal(selectedMovieShowData.ticketPrice * bs.length);
+    setSeatData(upd_obj);
 
-      console.log('upd_obj', upd_obj);
-    }
+    console.log('upd_obj', upd_obj);
+    // }
     // }
   };
 
@@ -1512,17 +1520,6 @@ const Seatbook = () => {
           </Typography>
         </div>
 
-        {/* <div className={style.divScreentext}>
-          <Typography
-            className={style.textscreen}
-            sx={{ fontSize: 14 }}
-            color="text.secondary"
-            gutterBottom
-          >
-            Screen this side
-          </Typography>
-        </div> */}
-
         <Box
           sx={{
             display: 'flex',
@@ -1538,6 +1535,10 @@ const Seatbook = () => {
             </Typography>
             <Typography className={style.totalseatbook} gutterBottom>
               Rp.{total}
+              {/* {bs.forEach((data) => {
+                console.log('data', data);
+                return <></>;
+              })} */}
             </Typography>
           </div>
 
@@ -1546,7 +1547,7 @@ const Seatbook = () => {
               Kursi
             </Typography>
 
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
               {bs.map((item, index) => {
                 return (
                   <>
@@ -1565,8 +1566,8 @@ const Seatbook = () => {
             <Button
               variant="outlined"
               className={style.btn1}
-              onClick={handleClickChangeDate}
-              // onClick={() => router.back()}
+              // onClick={handleClickChangeDate}
+              onClick={() => router.back()}
             >
               Change date
             </Button>
