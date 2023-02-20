@@ -72,17 +72,15 @@ export default function Home() {
       }
     } else {
       // setWarn(false);
+      if (event.target.value === '8877665544') {
+        setError(false);
+      } else {
+        setError(true);
+      }
     }
   };
 
   const handleChangepswd = (event: any) => {
-    // let regex = '/^(?=.[0-9])(?=.[!@#$%^&])[a-zA-Z0-9!@#$%^&]$/';
-    var re = new RegExp(
-      /(?=^.{6,32}$)(?=(?:.*?\d){1})(?=.*[a-z])(?=(?:.*?[!@#$%*()_+^&}{:;?.]){1})(?!.*\s)[0-9a-zA-Z!@#$%*()_+^&]*$/
-    );
-
-    console.log('regexcheck', re.test(event.target.value), event.target.value);
-
     if (accountData) {
       if (event.target.value === accountData.password) {
         setError1(false);
@@ -91,6 +89,11 @@ export default function Home() {
       }
     } else {
       // setWarn(true);
+      if (event.target.value === '123456') {
+        setError1(false);
+      } else {
+        setError1(true);
+      }
     }
   };
 

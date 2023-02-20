@@ -17,7 +17,6 @@ const SwiperImage = () => {
   const router = useRouter();
 
   const handleClickImage = (e: any, slug: any, items: any) => {
-    console.log('first', slug, items);
     router.push(`./movies/${slug}`);
   };
 
@@ -28,9 +27,8 @@ const SwiperImage = () => {
           // display: 'flex',
           // // justifyContent: 'space-around',
           // alignItems: 'center',
-          position: 'relative',
-        }}
-      >
+          position: 'relative'
+        }}>
         <Box
           sx={{
             position: 'absolute',
@@ -43,17 +41,16 @@ const SwiperImage = () => {
             top: { lg: '50%', xs: '36%' },
             background: '#FFFFFF',
             filter:
-              'drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.1))',
+              'drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.1))'
           }}
           className="swiper-button image-swiper-button-next"
-          id="swiper-btn"
-        >
+          id="swiper-btn">
           <ChevronRightIcon
             sx={{
               color: '#333333',
               margin: { lg: '15px', xs: '2px' },
               height: '30px',
-              width: '30px',
+              width: '30px'
             }}
           />
         </Box>
@@ -68,17 +65,16 @@ const SwiperImage = () => {
             background: '#FFFFFF',
             filter:
               'drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25)) drop-shadow(0px 4px 15px rgba(0, 0, 0, 0.1))',
-            cursor: 'pointer',
+            cursor: 'pointer'
           }}
           className="swiper-button image-swiper-button-prev"
-          id="swiper-btn"
-        >
+          id="swiper-btn">
           <KeyboardArrowLeftIcon
             sx={{
               color: '#333333',
               margin: { lg: '15px', xs: '2px' },
               height: '30px',
-              width: '30px',
+              width: '30px'
             }}
           />
         </Box>
@@ -90,28 +86,27 @@ const SwiperImage = () => {
             breakpoints={{
               0: {
                 slidesPerView: 1,
-                slidesPerGroup: 1,
+                slidesPerGroup: 1
               },
               1200: {
                 slidesPerView: 2,
-                slidesPerGroup: 2,
-              },
+                slidesPerGroup: 2
+              }
             }}
             style={{ marginTop: '90px' }}
             loop={true}
             loopFillGroupWithBlank={true}
             pagination={{
-              clickable: true,
+              clickable: true
             }}
             navigation={{
               nextEl: '.image-swiper-button-next',
               prevEl: '.image-swiper-button-prev',
-              disabledClass: 'swiper-button-disabled',
+              disabledClass: 'swiper-button-disabled'
             }}
             // navigation={true}
             modules={[Pagination, Navigation]}
-            className="mySwiper"
-          >
+            className="mySwiper">
             {moviesListing.map((item, ind) => {
               if (item.flag == 'PRIMARY') {
                 return (
@@ -121,9 +116,8 @@ const SwiperImage = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         flexDirection: 'column',
-                        alignItems: 'center',
-                      }}
-                    >
+                        alignItems: 'center'
+                      }}>
                       <Image
                         src={item.linkImg}
                         alt="data"
@@ -131,7 +125,7 @@ const SwiperImage = () => {
                         height={700}
                         style={{ borderRadius: '15px', cursor: 'pointer' }}
                         className={style.imageslidertop}
-                        onClick={(e) => handleClickImage(e, item.slug, item)}
+                        onClick={e => handleClickImage(e, item.slug, item)}
                       />
 
                       <Box>
@@ -148,17 +142,15 @@ const SwiperImage = () => {
                             lineHeight: { lg: '42px', xs: '42px' },
                             color: '#333333',
                             transform: 'rotate(0.51deg)',
-                            marginTop: { lg: '52px', xs: '40px' },
+                            marginTop: { lg: '52px', xs: '40px' }
                             // marginTop: '52px'
-                          }}
-                        >
+                          }}>
                           {item.title}
                         </Typography>
                       </Box>
 
                       <Box sx={{ display: 'flex' }}>
                         {theatreListing.map((data, i) => {
-                          console.log('gett', item.category, data.id);
                           if (item.category.includes(data.id)) {
                             return (
                               <>
@@ -169,9 +161,8 @@ const SwiperImage = () => {
                                     width: 'max-content',
                                     margin: '2px',
                                     // marginTop: '25px'
-                                    marginTop: { lg: '25px', xs: '18px' },
-                                  }}
-                                >
+                                    marginTop: { lg: '25px', xs: '18px' }
+                                  }}>
                                   <Typography
                                     sx={{
                                       fontFamily: 'system-ui',
@@ -183,10 +174,9 @@ const SwiperImage = () => {
                                       lineHeight: { lg: '24px', xs: '30px' },
                                       // lineHeight: '24px',
                                       color: '#FFFFFF',
-                                      padding: { lg: '0px 5px 0px 5px', xs: '0px 5px 1px 3px' },
+                                      padding: { lg: '0px 5px 0px 5px', xs: '0px 5px 1px 3px' }
                                       // padding: '0px 5px 0px 5px',
-                                    }}
-                                  >
+                                    }}>
                                     {data.shortForm}
                                   </Typography>
                                 </Box>

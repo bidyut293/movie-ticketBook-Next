@@ -15,6 +15,12 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 import AuthComponent from '../src/components/common/AuthComponent';
 
+import { moviesListing } from '../src/data/mainData';
+import { moviesListingType } from '../src/types/constants/movieListing.type';
+
+import { theatreListingType } from '../src/types/constants/theatreListing.type';
+import { theatreListing } from '../src/data/mainData';
+
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
 import {
   hoursToMinutes,
@@ -30,7 +36,7 @@ import {
   getMonth,
   getDay,
   isPast,
-  getDate,
+  getDate
 } from 'date-fns';
 import { padding } from '@mui/system';
 
@@ -46,18 +52,40 @@ const Confirmpayment = () => {
   const [coupenText, setCoupenText] = useState<string>();
   const [coupenPriceText, setCoupenPriceText] = useState<number>();
 
+  const [movieShowData, setMovieShowData] = useState<moviesListingType | undefined>();
+  const [theatreShowData, setTheatreShowData] = useState<theatreListingType | undefined>();
+
   //Redux Setup
   //   let selectedMovieShowData = useSelector(
   //     (state) => state.selectedMovieData.selectedMovieData
   //   );
 
   // //Redux Setup
-  let selectedMovieShowData = useSelector((state) => state.dataSelectedSlice.movie);
+  let selectedMovieShowData = useSelector(state => state.SelectedShowSlice);
 
   //   const selectedShow = useSelector((state) => state.showData.selectedData);
 
   useEffect(() => {
-    console.log('selectedMovieShowData', selectedMovieShowData);
+    // console.log('selectedMovieShowData'), selectedMovieShowData.movieId;
+    if (selectedMovieShowData.movieId) {
+      moviesListing.map(data => {
+        if (data.id === selectedMovieShowData?.movieId) {
+          setMovieShowData(data);
+        }
+      });
+
+      theatreListing.map(data => {
+        if (data.id === selectedMovieShowData?.theatreId) {
+          // console.log('dta get--->', data);
+          data.show.map(time => {
+            if (time.name === selectedMovieShowData?.showType) {
+              console.log('getting Time---1', time);
+              // console.log('first', time);
+            }
+          });
+        }
+      });
+    }
   }, []);
 
   const handleBookTicket = () => {
@@ -73,7 +101,7 @@ const Confirmpayment = () => {
     setCoupenText(document.getElementById('standard-basic').value);
 
     if (selectedMovieShowData.total > coupenPriceText) {
-      coupenList.map((item) => {
+      coupenList.map(item => {
         if (document.getElementById('standard-basic').value === item.name) {
           console.log('OK');
           setCoupenPrice(item.price);
@@ -125,7 +153,7 @@ const Confirmpayment = () => {
   };
 
   const handleChangeCoupenField = (e: any) => {
-    coupenList.map((data) => {
+    coupenList.map(data => {
       if (e.target.value === data.name) {
         setCoupenPriceText(data.price);
       }
@@ -162,10 +190,11 @@ const Confirmpayment = () => {
                 Film name
               </Typography>
 
-              <Typography className={style.confirmText3name} gutterBottom>
-                {/* SPIDERMAN NO WAY HOME */}
-                {selectedMovieShowData.title}
-              </Typography>
+              {movieShowData?.title && (
+                <Typography className={style.confirmText3name} gutterBottom>
+                  {movieShowData?.title}
+                </Typography>
+              )}
             </Box>
 
             <Divider style={{ width: '85%' }} />
@@ -176,13 +205,14 @@ const Confirmpayment = () => {
               <Typography className={style.confirmText3} gutterBottom>
                 date
               </Typography>
-
-              <Typography className={style.confirmText3name} gutterBottom>
-                {/* wednesday, 17 DEcEMBER 2021 */}
-                {format(fromUnixTime(selectedMovieShowData.date), 'EEEE')},
-                {format(fromUnixTime(selectedMovieShowData.date), 'd LLLL')} -{' '}
-                {format(fromUnixTime(selectedMovieShowData.date), 'y')}
-              </Typography>
+              {selectedMovieShowData.showTime && (
+                <Typography className={style.confirmText3name} gutterBottom>
+                  {/* wednesday, 17 DEcEMBER 2021 */}
+                  {format(selectedMovieShowData?.showTime, 'EEEE')},
+                  {format(selectedMovieShowData?.showTime, 'd LLLL')} -{' '}
+                  {format(selectedMovieShowData?.showTime, 'y')}
+                </Typography>
+              )}
             </div>
             <Divider style={{ width: '85%' }} />
             {/* div3 */}
@@ -191,58 +221,58 @@ const Confirmpayment = () => {
               style={{
                 paddingRight: '80px',
                 paddingTop: '20px',
-                display: 'flex',
-              }}
-            >
+                display: 'flex'
+              }}>
               <div>
                 <Typography className={style.confirmText3} gutterBottom>
                   Seat
                 </Typography>
 
                 <Typography className={style.confirmText3name} gutterBottom>
-                  {selectedMovieShowData.theatreType}
+                  {selectedMovieShowData?.showType}
                 </Typography>
               </div>
               <div style={{ paddingLeft: '80px' }}>
                 <Typography className={style.confirmText3} gutterBottom>
                   Time
                 </Typography>
-
-                <Typography className={style.confirmText3name} gutterBottom>
-                  {fromUnixTime(selectedMovieShowData.selectedTime).getHours()}:00
-                  {/* {option.time.getHours()}:00 */}
-                </Typography>
+                {selectedMovieShowData.showTime && (
+                  <Typography className={style.confirmText3name} gutterBottom>
+                    {(selectedMovieShowData?.showTime).getHours()}:00
+                    {/* {option.time.getHours()}:00 */}
+                  </Typography>
+                )}
               </div>
             </div>
             <Divider style={{ width: '85%' }} />
             {/* div4 */}
-            <div style={{ paddingRight: '80px', paddingTop: '20px' }}>
+
+            {/* <div style={{ paddingRight: '80px', paddingTop: '20px' }}>
               <Typography className={style.confirmText3} gutterBottom>
                 Ticket ({selectedMovieShowData.selectedSeat.length})
               </Typography>
 
               <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-                {selectedMovieShowData.selectedSeat.map((data, i) => {
+                {selectedMovieShowData?.selectedSeat.map((data, i) => {
                   return (
                     <>
                       <Typography className={style.confirmText3name} gutterBottom>
                         {data.name}
-                        {i == selectedMovieShowData.selectedSeat.length - 1 ? '' : ','}
+                        {i == selectedMovieShowData?.selectedSeat.length - 1 ? '' : ','}
                       </Typography>
                     </>
                   );
                 })}
               </Box>
-            </div>
+            </div> */}
             <Divider style={{ width: '85%' }} />
 
             <div
               style={{
                 paddingRight: '80px',
                 paddingTop: '50px',
-                display: 'flex',
-              }}
-            >
+                display: 'flex'
+              }}>
               <ArrowBackIcon onClick={handlebackpage} className={style.arrowbackbtn} />
               <Typography className={style.confirmText4} gutterBottom>
                 return
@@ -254,9 +284,8 @@ const Confirmpayment = () => {
             sx={{
               width: { lg: '60%', xs: '100%' },
               display: 'flex',
-              justifyContent: { lg: 'end' },
-            }}
-          >
+              justifyContent: { lg: 'end' }
+            }}>
             <div className={style.divconfirmpapermain}>
               <div
                 style={{
@@ -264,9 +293,8 @@ const Confirmpayment = () => {
                   flexDirection: 'column',
                   padding: '20px',
                   paddingLeft: '28px',
-                  paddingRight: '38px',
-                }}
-              >
+                  paddingRight: '38px'
+                }}>
                 <Typography className={style.confirmordertext1} gutterBottom>
                   confirm Order
                 </Typography>
@@ -281,10 +309,10 @@ const Confirmpayment = () => {
                   </Typography>
 
                   <Typography className={style.confirmordertext2} gutterBottom>
-                    {/* Rp. 50.000 */}
-                    Rp.{selectedMovieShowData.ticketPrice}
+                    Rp. 50.000
+                    {/* Rp.{selectedMovieShowData.ticketPrice} */}
                     <span style={{ fontWeight: 'bold', paddingLeft: '10px' }}>
-                      X{selectedMovieShowData.selectedSeat.length}
+                      X{selectedMovieShowData?.selectedSeats.length}
                     </span>
                   </Typography>
                 </div>
@@ -293,23 +321,22 @@ const Confirmpayment = () => {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    paddingBottom: '30px',
-                  }}
-                ></div>
+                    paddingBottom: '30px'
+                  }}></div>
 
                 <Divider />
                 <Box
                   sx={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
+                    justifyContent: 'space-between'
+                  }}>
                   <Typography className={style.confirmordertext2} gutterBottom>
                     Sub Total
                   </Typography>
 
                   <Typography className={style.confirmordertext2} gutterBottom>
-                    Rp.{selectedMovieShowData.total}.000
+                    {/* Rp.{selectedMovieShowData.total}.000 */}
+                    Rp.2000
                   </Typography>
                 </Box>
 
@@ -322,20 +349,19 @@ const Confirmpayment = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     paddingBottom: '10px',
-                    alignItems: 'center',
-                  }}
-                >
+                    alignItems: 'center'
+                  }}>
                   {btn ? (
                     <>
                       <TextField
                         id="standard-basic"
-                        onChange={(e) => handleChangeCoupenField(e)}
+                        onChange={e => handleChangeCoupenField(e)}
                         // label="Coupen Code"
                         variant="outlined"
                         inputProps={{
                           sx: {
-                            padding: '10px',
-                          },
+                            padding: '10px'
+                          }
                         }}
                         // sx={{ }}
                       />
@@ -343,8 +369,7 @@ const Confirmpayment = () => {
                       <Button
                         sx={{ backgroundColor: '#1a2c50', padding: '10px', height: 'fit-content' }}
                         onClick={AddCoupen}
-                        variant="contained"
-                      >
+                        variant="contained">
                         <AddIcon sx={{ mr: 1 }} />
                         apply coupen
                       </Button>
@@ -366,9 +391,8 @@ const Confirmpayment = () => {
                     sx={{
                       display: 'flex',
                       paddingBottom: '20px',
-                      justifyContent: 'space-between',
-                    }}
-                  >
+                      justifyContent: 'space-between'
+                    }}>
                     {/* {coupenList.map((data) => {
                     return (
                       <>
@@ -400,7 +424,8 @@ const Confirmpayment = () => {
                     Total
                   </Typography>
                   <Typography className={style.confirmordertotal} gutterBottom>
-                    Rp. {selectedMovieShowData.total - coupenPrice}.000
+                    {/* Rp. {selectedMovieShowData.total - coupenPrice}.000 */}
+                    2000.00
                   </Typography>
                 </div>
                 <Divider />
@@ -421,8 +446,7 @@ const Confirmpayment = () => {
                 <Button
                   variant="contained"
                   className={style.btnbookTicket}
-                  onClick={handleBookTicket}
-                >
+                  onClick={handleBookTicket}>
                   Book Ticket
                 </Button>
               </div>

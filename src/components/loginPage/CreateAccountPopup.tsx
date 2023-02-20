@@ -20,7 +20,7 @@ import Applogo from '../../../public/images/homepageImage/homePage/logo.png';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const CreateAccountPopup = (props) => {
+const CreateAccountPopup = (props: any) => {
   const { showPage, setShowPage, setAccountData } = props;
   const [warn, setWarn] = React.useState(false);
 
@@ -60,7 +60,6 @@ const CreateAccountPopup = (props) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
 
     // if()
-    console.log('formData', formData);
   };
 
   const handleSubmit = () => {
@@ -78,9 +77,9 @@ const CreateAccountPopup = (props) => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event: string) => {
+  //   event.preventDefault();
+  // };
 
   return (
     <>
@@ -174,7 +173,7 @@ const CreateAccountPopup = (props) => {
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
+                    // onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}

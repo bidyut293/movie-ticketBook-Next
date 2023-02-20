@@ -34,8 +34,10 @@ const Header: React.FC<ActiveChatsProps> = () => {
   };
 
   const handleLogout = () => {
-    console.log('clear');
-    window.localStorage.clear();
+    // window.localStorage.clear();
+    // router.push('/login');
+    localStorage.removeItem('isLogin');
+    localStorage.removeItem('name');
     router.push('/login');
   };
 

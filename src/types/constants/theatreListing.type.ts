@@ -3,7 +3,7 @@ export interface theatreListingType {
   shortForm: string;
   name: string;
   address: string;
-  area: Array<string>;
+  area: string;
   show: Array<{
     type: string;
     name: string;

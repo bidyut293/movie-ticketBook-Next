@@ -4,15 +4,7 @@ import style from '../styles/seatbook.module.css';
 
 import AuthComponent from '../src/components/common/AuthComponent';
 
-import {
-  Button,
-  Card,
-  CardContent,
-  MenuItem,
-  Snackbar,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, Card, CardContent, Snackbar, TextField, Typography } from '@mui/material';
 import Header from '../src/components/common/Header';
 import Footer from '../src/components/common/Footer';
 
@@ -21,1312 +13,227 @@ import { useRouter } from 'next/router';
 import { Box } from '@mui/system';
 import Alert from '@mui/material/Alert';
 
-import { useSelector } from '../src/store/index';
+import { useSelector, useDispatch } from '../src/store/index';
 
-import { useDispatch } from '../src/store';
+// import { useDispatch } from '../src/store';
 import { getData } from '../src/store/reducers/dataSelected/dataSelected.slice';
 
-import { seatDatas } from '../src/data/mainData';
+import { seatDatas, theatreListing } from '../src/data/mainData';
 import { seatDatasType } from '../src/types/constants/seatDatas.type';
 
 import MaxWidthWrapper from '../src/components/common/MaxWidthWrapper';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownSharpIcon from '@mui/icons-material/KeyboardArrowDownSharp';
 
-import {
-  hoursToMinutes,
-  getYear,
-  getTime,
-  getHours,
-  getUnixTime,
-  format,
-  addDays,
-  eachDayOfInterval,
-  fromUnixTime,
-  addHours,
-  getMonth,
-  getDay,
-  isPast,
-  getDate,
-} from 'date-fns';
+import { getUnixTime, fromUnixTime, getHours, isPast, getYear, getMonth, getDate } from 'date-fns';
 import NotFoundMsg from '../src/components/common/NotFoundMsg';
 
-// interface sample_seatDatas {
-//   id: any;
-//   name: string;
-//   Booked: any;
-//   Available: any;
-//   Selected: any;
-// }
-
-// let seatDatas: sample_seatDatas[] = [
-//   {
-//     id: 1,
-//     name: 'A1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'A2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'A3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'A4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'A5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'A6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'A7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'A8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'A9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'A10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'A11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'A12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'A13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'A14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'A15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'A16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'A17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'A18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'A19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'A20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 21,
-//     name: 'B1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 22,
-//     name: 'B2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'B3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'B4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'B5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'B6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'B7',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'B8',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'B9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'B10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'B11',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'B12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'B13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'B14',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'B15',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'B16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'B17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'B18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'B19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'B20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'C1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'C2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'C3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'C4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'C5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'C6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'C7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'C8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'C9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'C10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'C11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'C12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'C13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'C14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'C15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'C16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'C17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'C18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'C19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'C20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'D1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'D2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'D3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'D4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'D5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'D6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'D7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'D8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'D9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'D10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'D11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'D12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'D13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'D14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'D15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'D16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'D17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'D18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'D19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'D20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'E1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'E2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'E3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'E4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'E5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'E6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'E7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'E8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'E9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'E10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'E11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'E12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'E13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'E14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'E15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'E16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'E17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'E18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'E19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'E20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'F1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'F2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'F3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'F4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'F5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'E6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'E7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'E8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'E9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'E10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'E11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'E12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'E13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'E14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'E15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'E16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'E17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'E18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'E19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'E20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'F1',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'F2',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'F3',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'F4',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'F5',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'F6',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'F7',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'F8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'F9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'F10',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'F11',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'F12',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'F13',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'F14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'F15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'F16',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'F17',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'F18',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'F19',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'F20',
-//     Booked: true,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 1,
-//     name: 'G1',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 2,
-//     name: 'G2',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 3,
-//     name: 'G3',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 4,
-//     name: 'G4',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 5,
-//     name: 'G5',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 6,
-//     name: 'G6',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 7,
-//     name: 'G7',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 8,
-//     name: 'G8',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 9,
-//     name: 'G9',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 10,
-//     name: 'G10',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 11,
-//     name: 'G11',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 12,
-//     name: 'G12',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 13,
-//     name: 'G13',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 14,
-//     name: 'G14',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 15,
-//     name: 'G15',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 16,
-//     name: 'G16',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 17,
-//     name: 'G17',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 18,
-//     name: 'G18',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 19,
-//     name: 'G19',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-//   {
-//     id: 20,
-//     name: 'G20',
-//     Booked: false,
-//     Available: true,
-//     Selected: false,
-//   },
-// ];
-
-// interface sample_showTime {
-//   value: any;
-//   label: any;
-// }
-// const showTime: sample_showTime[] = [
-//   {
-//     value: '14:40',
-//     label: '14:40',
-//   },
-//   {
-//     value: '7:15',
-//     label: '7:15',
-//   },
-//   {
-//     value: '15:40',
-//     label: '15:40',
-//   },
-//   {
-//     value: '17:15',
-//     label: '17:15',
-//   },
-//   {
-//     value: '18:15',
-//     label: '18:15',
-//   },
-//   {
-//     value: '14:50',
-//     label: '14:50',
-//   },
-//   {
-//     value: '20:00',
-//     label: '20:00',
-//   },
-//   {
-//     value: '21:00',
-//     label: '21:00',
-//   },
-// ];
-
-let indi = 0;
-
-let bs: any[] = [];
+import {
+  SelectedShowReduxType,
+  setSelectedShow
+} from '../src/store/reducers/selected-show/SelectedShow.slice';
+import Seat from '../src/components/seatBook-page/Seat';
 
 const Seatbook = () => {
   const router = useRouter();
 
   // //Redux Setup
-  let selectedMovieShowData = useSelector((state) => state.dataSelectedSlice.movie);
+  let selectedMovieShowData = useSelector(state => state.SelectedShowSlice);
 
   const dispatch = useDispatch();
 
+  // const [totalSeats, setTotalSeats] = useState<Array<{ id: string; name: string }>>([]);
+  // const [bookedSeats, setBookedSeats] = useState<Array<{ id: string; name: string }>>([]);
+  // const [selectedSeats, setSelectedSeats] = useState<Array<{ id: string; name: string }>>([]);
+
+  // const selectSeatHandler = (data: { id: string; name: string }) => {
+  //   setSelectedSeats(prevValue => {
+  //     return [...prevValue, data];
+  //   });
+  // };
+
   const [seatData, setSeatData] = useState<Array<seatDatasType>>([]);
 
-  const [updatedData, setUpdatedData] = useState();
-  const [showKursi, setShowKursi] = useState(false);
-
-  // const [count, setCount] = useState();
-  const [total, setTotal] = useState<number>(0);
-  const [time, setTime] = useState<any>();
+  const [showKursi, setShowKursi] = useState<boolean>(false);
+  const [time, setTime] = useState<Date | null>(selectedMovieShowData.showTime);
 
   const [passingData, setPassingData] = useState([]);
+  const [seatId, setSeatId] = useState<Array<number>>([]);
+  const [seatName, setSeatName] = useState<Array<string>>([]);
+  const [timeArray, setTimeArray] = useState<Array<any>>([]);
+  const [price, setPrice] = useState<number>(0);
+  const [timeShow, setTimeShow] = useState<boolean>(true);
 
+  const [movieShowData, setMovieShowData] = useState<SelectedShowReduxType>();
+  const [isShowTime, setIsShowTime] = useState<boolean>(false);
+
+  // let tempArray: any = [];
   useEffect(() => {
-    console.log('getItem22222', localStorage.getItem('seatData'));
+    // if (localStorage.getItem('selectedData')) {
+    //   let seatData = JSON.parse(localStorage.getItem('selectedData'));
+    //   let idArray: any = [];
+    //   let nameArray: any = [];
+    //   setSeatData(seatDatas);
+    //   setTime(seatData.selectedTime);
+    //   setTimeArray(seatData.showTimeAll);
+    //   setPrice(seatData.ticketPrice);
+    //   if (seatData) {
+    //     seatData.selectedSeat.map(data => {
+    //       idArray.push(data.id);
+    //       nameArray.push(data.name);
+    //     });
+    //     setSeatId(idArray);
+    //     setSeatName(nameArray);
+    //   }
+    // } else {
     setSeatData(seatDatas);
     console.log('selectedMovieShowData', selectedMovieShowData);
-    setTime(selectedMovieShowData.selectedTime);
+    setMovieShowData(selectedMovieShowData);
+    // setTime(selectedMovieShowData.selectedTime);
+    // setTimeArray(selectedMovieShowData.showTimeAll);
+    // setPrice(selectedMovieShowData.ticketPrice);
+    // setTime();
+    console.log('timettttt---', isShowTime);
+    let tempArray: any = [];
+    theatreListing.map(data => {
+      if (data.id === selectedMovieShowData?.theatreId) {
+        // console.log('dta get--->', data);
+        data.show.map(time => {
+          if (time.name === selectedMovieShowData?.showType) {
+            console.log('getting Time---', time);
+            setPrice(time.time[0].price);
+
+            console.log('first', time.time);
+            time.time.map(item => {
+              console.log('item1111', item);
+              if (selectedMovieShowData?.showTime) {
+                // console.log(
+                //   'new Date',
+                //   new Date(
+                //     getYear(selectedMovieShowData?.showTime),
+                //     getMonth(selectedMovieShowData?.showTime),
+                //     getDate(selectedMovieShowData?.showTime),
+                //     item.time.getHours(),
+                //     0
+                //   )
+                // );
+                tempArray.push(
+                  new Date(
+                    getYear(selectedMovieShowData?.showTime),
+                    getMonth(selectedMovieShowData?.showTime),
+                    getDate(selectedMovieShowData?.showTime),
+                    item.time.getHours(),
+                    0
+                  )
+                );
+              }
+            });
+          }
+        });
+      }
+    });
+
+    console.log('tempArray', tempArray);
+
+    setTimeArray(tempArray);
+
+    // }
   }, []);
 
   useEffect(() => {
-    if (bs.length > 0) {
-      setTotal(selectedMovieShowData.ticketPrice * bs.length);
-    }
-  }, []);
-
-  const handleClickBooking = () => {
-    // dispatch(movieDataActions.getMovieData(passingData));
     dispatch(
-      getData({
-        movie: passingData,
+      setSelectedShow({
+        movieId: selectedMovieShowData.movieId,
+        price: selectedMovieShowData.price,
+        showTime: time,
+        showType: selectedMovieShowData.showType,
+        theatreId: selectedMovieShowData.theatreId,
+        selectedSeats: seatId
       })
     );
+  }, [seatId]);
+
+  // let selectedSeatArray: any[] = [];
+  // useEffect(() => {
+  //   if (seatId.length > 0) {
+  //     seatData.map((data, i) => {
+  //       if (seatId.includes(data.id)) {
+  //         selectedSeatArray.push(data);
+  //       }
+  //     });
+  //   }
+  // }, [seatId]);
+
+  // const handleClickBooking = () => {
+  //   localStorage.setItem('selectedData', JSON.stringify(passingData));
+  //   dispatch(
+  //     getData({
+  //       movie: passingData
+  //     })
+  //   );
+  //   router.push('./confirmpayment/');
+  // };
+
+  // const handleDateClick = (data: any) => {
+  //   if (!data.Booked) {
+  //     if (seatId.includes(data.id)) {
+  //       setSeatId(seatId.filter(obj => obj !== data.id));
+  //       setSeatName(seatName.filter(obj => obj !== data.name));
+  //     } else {
+  //       if (seatId.length < 6) {
+  //         setSeatId([...seatId, data.id]);
+  //         setSeatName([...seatName, data.name]);
+  //       } else {
+  //         setShowKursi(true);
+  //       }
+  //     }
+  //   }
+  // };
+
+  // const handleTimeSelect = () => {
+  //   setTimeShow(!timeShow);
+  // };
+
+  // const handleClickSelectedTime = (time: any) => {
+  //   setTime(getUnixTime(time));
+  // };
+
+  // const handleClose = () => {
+  //   setShowKursi(false);
+  // };
+
+  const selectedShowTimeHandle = () => {
+    console.log('movieShowData', movieShowData);
+    setIsShowTime(true);
+  };
+
+  const handleClickSelectedTime = (selectTime: Date) => {
+    setTime(selectTime);
+    setIsShowTime(false);
+  };
+
+  const handleSelectSeat = (data: seatDatasType) => {
+    if (!data.Booked) {
+      if (seatId.includes(data.id)) {
+        setSeatId(seatId.filter(obj => obj !== data.id));
+        setSeatName(seatName.filter(obj => obj !== data.name));
+      } else {
+        if (seatId.length < 6) {
+          setSeatId([...seatId, data.id]);
+          setSeatName([...seatName, data.name]);
+        } else {
+          setShowKursi(true);
+        }
+      }
+    }
+  };
+
+  const handleClickConfirmBooking = () => {
     router.push('./confirmpayment/');
   };
 
-  const handleTime = (e: any, val: any) => {
-    console.log('value', getUnixTime(val), val);
-    setTime(getUnixTime(val));
-  };
-
-  const handleClickChangeDate = () => {
-    // router.push('./movie/');
-  };
-
-  let count: number = 0;
-  let j = 0;
-  const handleDateClick = (data: any) => {
-    // console.log('data', data, time);
-
-    console.log('gett11', bs);
-
-    // seatData.map((item, ind) => {
-    //   if (item.Selected) {
-    //     if (count < 6) {
-    //       count++;
-    //       console.log('count', count);
-    //     }
-    //   }
-    // });
-    // console.log('count', count);
-
-    // if (count < 6) {
-    const upd_obj = seatData.map((obj) => {
-      if (obj.name == data.name) {
-        console.log('obj', obj);
-        obj.Selected = !data.Selected;
-      }
-
-      return obj;
-    });
-
-    bs = [];
-    upd_obj.map((data) => {
-      if (data.Selected) {
-        j++;
-        console.log('push', bs.length);
-        bs.push(data);
-      }
-    });
-
-    // if (bs.length < 6) {
-    setPassingData({
-      ...selectedMovieShowData,
-      selectedTime: time,
-      selectedSeat: bs,
-      total: selectedMovieShowData.ticketPrice * bs.length,
-    });
-
-    console.log('totallll', total, bs.length);
-    console.log('bs_new', bs);
-    localStorage.setItem('seatData', JSON.stringify(bs));
-    setTotal(selectedMovieShowData.ticketPrice * bs.length);
-    setSeatData(upd_obj);
-
-    console.log('upd_obj', upd_obj);
-    // }
-    // }
+  const handleShowTime = () => {
+    setIsShowTime(false);
   };
 
   const handleClose = () => {
@@ -1344,9 +251,22 @@ const Seatbook = () => {
           </Snackbar>
         )}
         <Header />
-
-        <div className={style.divmainseatbook}>
-          <div>
+        {seatData && (
+          <Seat
+            movieShowData={movieShowData}
+            seatData={seatData}
+            timeArray={timeArray}
+            time={time}
+            isShowTime={isShowTime}
+            seatId={seatId}
+            selectedShowTimeHandle={selectedShowTimeHandle}
+            handleClickSelectedTime={handleClickSelectedTime}
+            handleShowTime={handleShowTime}
+            handleSelectSeat={handleSelectSeat}
+          />
+        )}
+        {/* <Box className={style.divmainseatbook}>
+          <Box>
             <Typography className={style.selectseattext} color="text.secondary" gutterBottom>
               Select seat
             </Typography>
@@ -1355,13 +275,12 @@ const Seatbook = () => {
               className={style.selectseattext2}
               sx={{ fontSize: 14 }}
               color="text.secondary"
-              gutterBottom
-            >
+              gutterBottom>
               Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora aut
             </Typography>
-          </div>
+          </Box>
 
-          <div>
+          <Box>
             <Box
               sx={{
                 display: 'flex',
@@ -1370,105 +289,161 @@ const Seatbook = () => {
                 paddingLeft: { lg: '30px', xs: '0px' },
                 paddingRight: { lg: '30px', xs: '0px' },
                 paddingTop: { lg: '60px', xs: '30px' },
-                paddingBottom: '35px',
-              }}
-            >
-              <div>
-                <Image src={clocklogo} alt="clocklogo" style={{ marginTop: '5px' }} />
-                <TextField
-                  id="standard-select-currency-native"
-                  variant="standard"
-                  select
-                  defaultValue={selectedMovieShowData.selectedTime}
-                  // {format(fromUnixTime(item.date), 'E')}
-                  //   SelectProps={{
-                  //     native: true,
-                  //   }}
+                paddingBottom: '35px'
+              }}>
+              <Box sx={{ cursor: 'pointer' }}>
+                {timeShow ? (
+                  <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                    <Image
+                      src={clocklogo}
+                      alt="clocklogo"
+                      onClick={handleTimeSelect}
+                      style={{ cursor: 'pointer' }}
+                    />
+                    <Typography
+                      sx={{
+                        fontFamily: 'system-ui',
+                        fontWeight: 400,
+                        fontSize: '25px',
+                        marginBottom: '0px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={handleTimeSelect}
+                      gutterBottom>
+                      {fromUnixTime(time).getHours()}:00
+                    </Typography>
+                    <Box>
+                      <KeyboardArrowUpIcon
+                        sx={{ width: '35px', height: '35px', cursor: 'pointer' }}
+                        onClick={handleTimeSelect}
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  <>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        position: 'absolute',
+                        width: '410px',
+                        padding: '15px',
+                        background: '#FFFFFF',
+                        boxShadow: '0px 1px 6px rgba(0, 0, 0, 0.3)',
+                        borderRadius: '12px'
+                      }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center'
+                        }}>
+                        <Image
+                          src={clocklogo}
+                          alt="clocklogo"
+                          onClick={handleTimeSelect}
+                          style={{ cursor: 'pointer' }}
+                        />
 
-                  InputProps={{
-                    disableUnderline: true,
-                    style: { fontSize: 25, marginLeft: '10px' },
-                  }}
-                >
-                  {console.log('getTime', selectedMovieShowData.selectedTime)}
-                  {selectedMovieShowData.showTimeAll.map((option) => (
-                    // {console.log('first',option.time)}
-                    <MenuItem
-                      key={getUnixTime(option.time)}
-                      value={getUnixTime(option.time)}
-                      onClick={(event) => handleTime(event, option.time)}
-                      disabled={isPast(option.time)}
-                    >
-                      {option.time.getHours()}:00
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
+                        <Typography
+                          sx={{
+                            fontFamily: 'system-ui',
+                            fontWeight: 500,
+                            fontSize: '25px',
+                            marginBottom: '0px',
+                            cursor: 'pointer'
+                          }}
+                          onClick={handleTimeSelect}
+                          gutterBottom>
+                          {fromUnixTime(time).getHours()}:00
+                        </Typography>
+                        <Box>
+                          <KeyboardArrowDownSharpIcon
+                            sx={{ width: '35px', height: '35px', cursor: 'pointer' }}
+                            onClick={handleTimeSelect}
+                          />
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        {timeArray.map((data, ind) => {
+                          return (
+                            <>
+                              <Button
+                                sx={{
+                                  border:
+                                    time === getUnixTime(data.time) ? '0px' : '1px solid #5A637A',
+                                  borderRadius: '5px',
+                                  color: time === getUnixTime(data.time) ? '#fff' : '#1a2c50',
+                                  fontSize: '17px',
+                                  backgroundColor:
+                                    time === getUnixTime(data.time) ? '#1a2c50' : '#fff',
+                                  '&:hover': {
+                                    color: '#fff',
+                                    backgroundColor: '#1a2c50',
+                                    fontSize: '18px'
+                                  },
+                                  margin: '10px',
+                                  marginTop: '10px',
+                                  marginLeft: '5px'
+                                }}
+                                disabled={isPast(data.time)}
+                                onClick={() => handleClickSelectedTime(data.time)}
+                                id="card">
+                                {data.time.getHours()}:00
+                              </Button>
+                            </>
+                          );
+                        })}
+                      </Box>
+                    </Box>
+                  </>
+                )}
+              </Box>
 
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  paddingTop: { lg: '0px', xs: '30px' },
-                }}
-              >
+                  paddingTop: { lg: '0px', xs: '30px' }
+                }}>
                 <Box sx={{ display: 'flex', marginLeft: { lg: '15px', xs: '10px' } }}>
-                  <div className={style.divbox1}></div>
+                  <Box className={style.divbox1}></Box>
                   <Typography className={style.textbox1} gutterBottom>
                     Booked
                   </Typography>
                 </Box>
 
-                <div style={{ display: 'flex', marginLeft: '15px' }}>
-                  <div className={style.divbox2}></div>
+                <Box style={{ display: 'flex', marginLeft: '15px' }}>
+                  <Box className={style.divbox2}></Box>
                   <Typography className={style.textbox2} gutterBottom>
                     Available
                   </Typography>
-                </div>
+                </Box>
 
-                <div style={{ display: 'flex', marginLeft: '15px' }}>
-                  <div className={style.divbox3}></div>
+                <Box style={{ display: 'flex', marginLeft: '15px' }}>
+                  <Box className={style.divbox3}></Box>
                   <Typography className={style.textbox3} gutterBottom>
                     Selected
                   </Typography>
-                </div>
+                </Box>
               </Box>
             </Box>
 
-            <div>
-              <div className={style.divcardseatmain}>
+            <Box>
+              <Box className={style.divcardseatmain}>
                 {seatData.map((data, ind) => {
-                  // const backgroundColor = s/s/
-                  // {const Booked = ''}
+                  const isBooked = !!bookedSeats.find(item => item.id === data.id);
+                  const isSelected = !!selectedSeats.find(item => item.id === data.id);
                   return (
                     <>
-                      <div
+                      <Box
                         style={{
                           marginRight:
-                            // {
-                            // lg:
                             data.name.split('').splice(1, data.name.split('').length).join('') ===
                             '10'
                               ? '100px'
-                              : '0px',
-                          // xs: '0px',
-                          // },
-                          //   marginLeft:
-                          //     data.name
-                          //       .split('')
-                          //       .splice(1, data.name.split('').length)
-                          //       .join('') === '11'
-                          //       ? '30px'
-                          //       : '0px',
-                        }}
-                      >
-                        {/* {console.log(
-                          'getslicedata',
-                          data.name
-                            .split('')
-                            .splice(1, data.name.split('').length)
-                            .join('')
-                        )} */}
+                              : '0px'
+                        }}>
                         <Card
                           sx={{
                             border: '1px solid #5A637A',
@@ -1476,109 +451,88 @@ const Seatbook = () => {
                             cursor: 'pointer',
                             backgroundColor: data.Booked
                               ? '#1a2c50'
-                              : data.Selected
+                              : seatId.includes(data.id)
                               ? '#118EEA'
-                              : '',
+                              : ''
                           }}
                           className={style.cardboxseat}
                           id="card"
-                          //   className={style.cardseat}
-                          onClick={() => handleDateClick(data)}
-                        >
+                          onClick={() => handleDateClick(data)}>
                           <CardContent
                             style={{
                               padding: '9px',
                               display: 'flex',
-                              justifyContent: 'center',
-                            }}
-                          >
+                              justifyContent: 'center'
+                            }}>
                             <Typography
                               className={style.seatText2}
-                              color={data.Booked ? '#fff' : '#1a2c50'}
-                              gutterBottom
-                            >
+                              sx={{
+                                color: data.Booked
+                                  ? '#fff'
+                                  : seatId.includes(data.id)
+                                  ? '#fff'
+                                  : '#1a2c50'
+                              }}
+                              gutterBottom>
                               {data.name}
                             </Typography>
                           </CardContent>
                         </Card>
-                      </div>
+                      </Box>
                     </>
                   );
                 })}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={style.divScreentext}>
+              </Box>
+            </Box>
+          </Box>
+        </Box> */}
+        <Box className={style.divScreentext}>
           <Typography
             className={style.textscreen}
             sx={{ fontSize: 14 }}
             color="text.secondary"
-            gutterBottom
-          >
+            gutterBottom>
             Screen this side
           </Typography>
-        </div>
-
+        </Box>
         <Box
           sx={{
             display: 'flex',
             flexDirection: { lg: 'row', xs: 'column' },
             justifyContent: 'space-evenly',
             paddingTop: '50px',
-            paddingBottom: { lg: '80px', xs: '40px' },
-          }}
-        >
-          <div className={style.div1showrupees}>
+            paddingBottom: { lg: '80px', xs: '40px' }
+          }}>
+          <Box className={style.div1showrupees}>
             <Typography className={style.toatalText} gutterBottom>
               Total
             </Typography>
             <Typography className={style.totalseatbook} gutterBottom>
-              Rp.{total}
-              {/* {bs.forEach((data) => {
-                console.log('data', data);
-                return <></>;
-              })} */}
+              Rp.{seatId.length * price}
             </Typography>
-          </div>
+          </Box>
 
-          <div className={style.div1showrupees}>
+          <Box className={style.div1showrupees}>
             <Typography className={style.toatalText} gutterBottom>
               Kursi
             </Typography>
 
             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-              {bs.map((item, index) => {
-                return (
-                  <>
-                    {item.Selected && (
-                      <Typography className={style.totalseatbook} gutterBottom>
-                        {item.name}
-                        {index == bs.length - 1 ? '' : ','}
-                      </Typography>
-                    )}
-                  </>
-                );
-              })}
+              <Typography className={style.totalseatbook} gutterBottom>
+                {seatName.toString()}
+              </Typography>
             </Box>
-          </div>
-          <div className={style.btndiv}>
-            <Button
-              variant="outlined"
-              className={style.btn1}
-              // onClick={handleClickChangeDate}
-              onClick={() => router.back()}
-            >
+          </Box>
+          <Box className={style.btndiv}>
+            <Button variant="outlined" className={style.btn1} onClick={() => router.back()}>
               Change date
             </Button>
-            <Button variant="contained" className={style.btn2} onClick={handleClickBooking}>
+            <Button variant="contained" className={style.btn2} onClick={handleClickConfirmBooking}>
               Confirm
             </Button>
-          </div>
+          </Box>
         </Box>
-
         <Footer />
-        {/* </div> */}
       </MaxWidthWrapper>
     </AuthComponent>
   );

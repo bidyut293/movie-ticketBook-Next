@@ -1,7 +1,7 @@
 export interface seatDatasType {
-  id: any;
+  id: number;
   name: string;
-  Booked: any;
-  Available: any;
-  Selected: any;
+  Booked: boolean;
+  Available: boolean;
+  Selected: boolean;
 }
