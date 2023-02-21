@@ -31,10 +31,8 @@ export default function Home() {
   const [warn, setWarn] = useState<boolean>(false);
   const [showPage, setShowPage] = useState<boolean>(false);
   const [accountData, setAccountData] = useState<any>();
-
-  // useEffect(() => {
-  //   console.log('accountData', accountData);
-  // }, [accountData]);
+  const [phoneNumber, setPhoneNumber] = useState<number>(0);
+  const [password, setPassword] = useState<string>();
 
   useEffect(() => {
     if (!error && !error1) {
@@ -52,10 +50,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (
-      document.getElementById('standard-number').value === '' ||
-      document.getElementById('standard-textarea').value === ''
-    ) {
+    if (phoneNumber > 0 || password === '') {
       setBtn(true);
     } else {
       setBtn(false);
@@ -63,6 +58,7 @@ export default function Home() {
   }, []);
 
   const handleChange = (event: any) => {
+    setPhoneNumber(event.target.value);
     console.log('phone number', event.target.value.trim().length);
     if (accountData) {
       if (event.target.value === accountData.number) {
@@ -81,6 +77,7 @@ export default function Home() {
   };
 
   const handleChangepswd = (event: any) => {
+    setPassword(event.target.value);
     if (accountData) {
       if (event.target.value === accountData.password) {
         setError1(false);
@@ -113,7 +110,7 @@ export default function Home() {
     // ) {
     //   setWarn(true);
     // } else {
-    localStorage.setItem('isLogin', true);
+    localStorage.setItem('isLogin', 'true');
     localStorage.setItem('name', 'bidyut');
     router.push('/');
     // }
@@ -186,9 +183,9 @@ export default function Home() {
                   type="number"
                   name="number"
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
-                  onChange={(event) => handleChange(event)}
+                  onChange={event => handleChange(event)}
                   error={error}
                   helperText={error ? 'Wrong Number' : ''}
                   // InputProps={{ classes: {stylelogin.phone} }}
@@ -204,9 +201,9 @@ export default function Home() {
                   style={{ width: '72%', color: '#1A2C50' }}
                   placeholder="Enter Password here"
                   multiline
-                  onChange={(event) => handleChangepswd(event)}
+                  onChange={event => handleChangepswd(event)}
                   InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                   }}
                   error={error1}
                   helperText={error1 ? 'Wrong Password' : ''}
@@ -219,11 +216,10 @@ export default function Home() {
                   variant="contained"
                   sx={{
                     width: '72%',
-                    backgroundColor: btn ? '#a7a7a7' : '#1A2C50',
+                    backgroundColor: btn ? '#a7a7a7' : '#1A2C50'
                   }}
                   onClick={handleLogin}
-                  disabled={btn}
-                >
+                  disabled={btn}>
                   LOGIN
                 </Button>
               </Grid>
@@ -237,9 +233,8 @@ export default function Home() {
                     display: 'flex',
                     justifyContent: 'center',
                     fontSize: '12px',
-                    color: '#9e9e9e',
-                  }}
-                >
+                    color: '#9e9e9e'
+                  }}>
                   <a href="#">dont have account?</a>
                 </Typography>
               </Grid>
@@ -257,10 +252,9 @@ export default function Home() {
                     border: '1px solid #1A2C50',
                     '&:hover': {
                       color: '#fff',
-                      backgroundColor: '#1A2C50',
-                    },
-                  }}
-                >
+                      backgroundColor: '#1A2C50'
+                    }
+                  }}>
                   Create Account
                 </Button>
               </Grid>

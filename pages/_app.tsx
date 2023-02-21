@@ -8,17 +8,17 @@ import { useRouter } from 'next/router';
 export default function App({ Component, pageProps }: AppProps) {
   const Router = useRouter();
 
-  const [page, setPage] = useState(true);
+  // const [page, setPage] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem('isLogin')) {
-      setPage(true);
+      // setPage(true);
     } else {
-      setPage(false);
+      // setPage(false);
       Router.push('./login');
     }
   }, []);
-  
+
   return (
     <Provider store={store}>
       <Component {...pageProps} />
