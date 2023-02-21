@@ -42,16 +42,6 @@ const Seatbook = () => {
 
   const dispatch = useDispatch();
 
-  // const [totalSeats, setTotalSeats] = useState<Array<{ id: string; name: string }>>([]);
-  // const [bookedSeats, setBookedSeats] = useState<Array<{ id: string; name: string }>>([]);
-  // const [selectedSeats, setSelectedSeats] = useState<Array<{ id: string; name: string }>>([]);
-
-  // const selectSeatHandler = (data: { id: string; name: string }) => {
-  //   setSelectedSeats(prevValue => {
-  //     return [...prevValue, data];
-  //   });
-  // };
-
   const [seatData, setSeatData] = useState<Array<seatDatasType>>([]);
 
   const [showKursi, setShowKursi] = useState<boolean>(false);
@@ -69,30 +59,11 @@ const Seatbook = () => {
 
   // let tempArray: any = [];
   useEffect(() => {
-    // if (localStorage.getItem('selectedData')) {
-    //   let seatData = JSON.parse(localStorage.getItem('selectedData'));
-    //   let idArray: any = [];
-    //   let nameArray: any = [];
-    //   setSeatData(seatDatas);
-    //   setTime(seatData.selectedTime);
-    //   setTimeArray(seatData.showTimeAll);
-    //   setPrice(seatData.ticketPrice);
-    //   if (seatData) {
-    //     seatData.selectedSeat.map(data => {
-    //       idArray.push(data.id);
-    //       nameArray.push(data.name);
-    //     });
-    //     setSeatId(idArray);
-    //     setSeatName(nameArray);
-    //   }
-    // } else {
+    // if (selectedMovieShowData?.movieId > 0) {
     setSeatData(seatDatas);
     console.log('selectedMovieShowData', selectedMovieShowData);
     setMovieShowData(selectedMovieShowData);
-    // setTime(selectedMovieShowData.selectedTime);
-    // setTimeArray(selectedMovieShowData.showTimeAll);
-    // setPrice(selectedMovieShowData.ticketPrice);
-    // setTime();
+
     console.log('timettttt---', isShowTime);
     let tempArray: any = [];
     theatreListing.map(data => {
@@ -107,16 +78,6 @@ const Seatbook = () => {
             time.time.map(item => {
               console.log('item1111', item);
               if (selectedMovieShowData?.showTime) {
-                // console.log(
-                //   'new Date',
-                //   new Date(
-                //     getYear(selectedMovieShowData?.showTime),
-                //     getMonth(selectedMovieShowData?.showTime),
-                //     getDate(selectedMovieShowData?.showTime),
-                //     item.time.getHours(),
-                //     0
-                //   )
-                // );
                 tempArray.push(
                   new Date(
                     getYear(selectedMovieShowData?.showTime),
@@ -136,7 +97,42 @@ const Seatbook = () => {
     console.log('tempArray', tempArray);
 
     setTimeArray(tempArray);
+    // } else {
+    //   let seatData = JSON.parse(localStorage.getItem('selectedShowData'));
+    //   console.log('seatData', seatData);
 
+    //   setSeatData(seatDatas);
+    //   setMovieShowData(seatData);
+
+    //   let tempArray: any = [];
+    //   theatreListing.map(data => {
+    //     if (data.id === seatData.theatreId) {
+    //       // console.log('dta get--->', data);
+    //       data.show.map(time => {
+    //         if (time.name === seatData.showType) {
+    //           console.log('getting Time---', time);
+    //           setPrice(time.time[0].price);
+
+    //           console.log('first', time.time);
+    //           time.time.map(item => {
+    //             console.log('item1111', item);
+    //             if (seatData.showTime) {
+    //               tempArray.push(
+    //                 new Date(
+    //                   getYear(seatData.showTime),
+    //                   getMonth(seatData.showTime),
+    //                   getDate(seatData.showTime),
+    //                   item.time.getHours(),
+    //                   0
+    //                 )
+    //               );
+    //             }
+    //           });
+    //         }
+    //       });
+    //     }
+    //   });
+    //   setTimeArray(tempArray);
     // }
   }, []);
 
@@ -210,6 +206,16 @@ const Seatbook = () => {
   const handleClickSelectedTime = (selectTime: Date) => {
     setTime(selectTime);
     setIsShowTime(false);
+    dispatch(
+      setSelectedShow({
+        movieId: selectedMovieShowData.movieId,
+        price: selectedMovieShowData.price,
+        showTime: selectTime,
+        showType: selectedMovieShowData.showType,
+        theatreId: selectedMovieShowData.theatreId,
+        selectedSeats: seatId
+      })
+    );
   };
 
   const handleSelectSeat = (data: seatDatasType) => {
@@ -229,7 +235,21 @@ const Seatbook = () => {
   };
 
   const handleClickConfirmBooking = () => {
-    router.push('./confirmpayment/');
+    if (seatId.length > 0) {
+      localStorage.setItem(
+        'selectedShowData',
+        JSON.stringify({
+          movieId: selectedMovieShowData.movieId,
+          price: selectedMovieShowData.price,
+          showTime: time,
+          showType: selectedMovieShowData.showType,
+          theatreId: selectedMovieShowData.theatreId,
+          selectedSeats: seatId
+        })
+      );
+
+      router.push('./confirmpayment/');
+    }
   };
 
   const handleShowTime = () => {
@@ -265,227 +285,7 @@ const Seatbook = () => {
             handleSelectSeat={handleSelectSeat}
           />
         )}
-        {/* <Box className={style.divmainseatbook}>
-          <Box>
-            <Typography className={style.selectseattext} color="text.secondary" gutterBottom>
-              Select seat
-            </Typography>
 
-            <Typography
-              className={style.selectseattext2}
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom>
-              Lorem ipsum dolor sit amet. Et dolorum libero eos enim tempora aut
-            </Typography>
-          </Box>
-
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: { lg: 'row', xs: 'column' },
-                paddingLeft: { lg: '30px', xs: '0px' },
-                paddingRight: { lg: '30px', xs: '0px' },
-                paddingTop: { lg: '60px', xs: '30px' },
-                paddingBottom: '35px'
-              }}>
-              <Box sx={{ cursor: 'pointer' }}>
-                {timeShow ? (
-                  <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                    <Image
-                      src={clocklogo}
-                      alt="clocklogo"
-                      onClick={handleTimeSelect}
-                      style={{ cursor: 'pointer' }}
-                    />
-                    <Typography
-                      sx={{
-                        fontFamily: 'system-ui',
-                        fontWeight: 400,
-                        fontSize: '25px',
-                        marginBottom: '0px',
-                        cursor: 'pointer'
-                      }}
-                      onClick={handleTimeSelect}
-                      gutterBottom>
-                      {fromUnixTime(time).getHours()}:00
-                    </Typography>
-                    <Box>
-                      <KeyboardArrowUpIcon
-                        sx={{ width: '35px', height: '35px', cursor: 'pointer' }}
-                        onClick={handleTimeSelect}
-                      />
-                    </Box>
-                  </Box>
-                ) : (
-                  <>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        position: 'absolute',
-                        width: '410px',
-                        padding: '15px',
-                        background: '#FFFFFF',
-                        boxShadow: '0px 1px 6px rgba(0, 0, 0, 0.3)',
-                        borderRadius: '12px'
-                      }}>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}>
-                        <Image
-                          src={clocklogo}
-                          alt="clocklogo"
-                          onClick={handleTimeSelect}
-                          style={{ cursor: 'pointer' }}
-                        />
-
-                        <Typography
-                          sx={{
-                            fontFamily: 'system-ui',
-                            fontWeight: 500,
-                            fontSize: '25px',
-                            marginBottom: '0px',
-                            cursor: 'pointer'
-                          }}
-                          onClick={handleTimeSelect}
-                          gutterBottom>
-                          {fromUnixTime(time).getHours()}:00
-                        </Typography>
-                        <Box>
-                          <KeyboardArrowDownSharpIcon
-                            sx={{ width: '35px', height: '35px', cursor: 'pointer' }}
-                            onClick={handleTimeSelect}
-                          />
-                        </Box>
-                      </Box>
-                      <Box
-                        sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                        {timeArray.map((data, ind) => {
-                          return (
-                            <>
-                              <Button
-                                sx={{
-                                  border:
-                                    time === getUnixTime(data.time) ? '0px' : '1px solid #5A637A',
-                                  borderRadius: '5px',
-                                  color: time === getUnixTime(data.time) ? '#fff' : '#1a2c50',
-                                  fontSize: '17px',
-                                  backgroundColor:
-                                    time === getUnixTime(data.time) ? '#1a2c50' : '#fff',
-                                  '&:hover': {
-                                    color: '#fff',
-                                    backgroundColor: '#1a2c50',
-                                    fontSize: '18px'
-                                  },
-                                  margin: '10px',
-                                  marginTop: '10px',
-                                  marginLeft: '5px'
-                                }}
-                                disabled={isPast(data.time)}
-                                onClick={() => handleClickSelectedTime(data.time)}
-                                id="card">
-                                {data.time.getHours()}:00
-                              </Button>
-                            </>
-                          );
-                        })}
-                      </Box>
-                    </Box>
-                  </>
-                )}
-              </Box>
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingTop: { lg: '0px', xs: '30px' }
-                }}>
-                <Box sx={{ display: 'flex', marginLeft: { lg: '15px', xs: '10px' } }}>
-                  <Box className={style.divbox1}></Box>
-                  <Typography className={style.textbox1} gutterBottom>
-                    Booked
-                  </Typography>
-                </Box>
-
-                <Box style={{ display: 'flex', marginLeft: '15px' }}>
-                  <Box className={style.divbox2}></Box>
-                  <Typography className={style.textbox2} gutterBottom>
-                    Available
-                  </Typography>
-                </Box>
-
-                <Box style={{ display: 'flex', marginLeft: '15px' }}>
-                  <Box className={style.divbox3}></Box>
-                  <Typography className={style.textbox3} gutterBottom>
-                    Selected
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-
-            <Box>
-              <Box className={style.divcardseatmain}>
-                {seatData.map((data, ind) => {
-                  const isBooked = !!bookedSeats.find(item => item.id === data.id);
-                  const isSelected = !!selectedSeats.find(item => item.id === data.id);
-                  return (
-                    <>
-                      <Box
-                        style={{
-                          marginRight:
-                            data.name.split('').splice(1, data.name.split('').length).join('') ===
-                            '10'
-                              ? '100px'
-                              : '0px'
-                        }}>
-                        <Card
-                          sx={{
-                            border: '1px solid #5A637A',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            backgroundColor: data.Booked
-                              ? '#1a2c50'
-                              : seatId.includes(data.id)
-                              ? '#118EEA'
-                              : ''
-                          }}
-                          className={style.cardboxseat}
-                          id="card"
-                          onClick={() => handleDateClick(data)}>
-                          <CardContent
-                            style={{
-                              padding: '9px',
-                              display: 'flex',
-                              justifyContent: 'center'
-                            }}>
-                            <Typography
-                              className={style.seatText2}
-                              sx={{
-                                color: data.Booked
-                                  ? '#fff'
-                                  : seatId.includes(data.id)
-                                  ? '#fff'
-                                  : '#1a2c50'
-                              }}
-                              gutterBottom>
-                              {data.name}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Box>
-                    </>
-                  );
-                })}
-              </Box>
-            </Box>
-          </Box>
-        </Box> */}
         <Box className={style.divScreentext}>
           <Typography
             className={style.textscreen}

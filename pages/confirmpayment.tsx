@@ -62,7 +62,6 @@ const Confirmpayment = () => {
   const [warnMsg, setWarnMsg] = useState<string>();
   const [coupenPrice, setCoupenPrice] = useState<number>(0);
 
-  // const [coupenText, setCoupenText] = useState<string | undefined>();
   const [coupenPriceText, setCoupenPriceText] = useState<number | undefined>();
 
   const [movieShowData, setMovieShowData] = useState<moviesListingType | undefined>();
@@ -74,8 +73,6 @@ const Confirmpayment = () => {
 
   // //Redux Setup
   let selectedMovieShowData = useSelector(state => state.SelectedShowSlice);
-
-  //   const selectedShow = useSelector((state) => state.showData.selectedData);
 
   useEffect(() => {
     if (selectedMovieShowData.movieId) {
@@ -116,7 +113,6 @@ const Confirmpayment = () => {
   };
 
   const AddCoupen = () => {
-    // setCoupenText(coupen);
 
     if (coupenPriceText) {
       if (
@@ -132,14 +128,13 @@ const Confirmpayment = () => {
             console.log('not OK');
           }
         });
-
         if (coupen === 'FLAT100' || coupen === 'FLAT50') {
           setWarn(true);
           setWarnServerity('success');
           setWarnMsg('Successfully Applied');
           console.log('data');
         } else {
-          setWarnMsg('Coupen Not Found');
+          setWarnMsg('Coupon Not Found');
           setWarn(true);
           setWarnServerity('error');
         }

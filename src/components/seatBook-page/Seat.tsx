@@ -38,6 +38,7 @@ const Seat: React.FC<SeatProps> = ({
   handleSelectSeat
 }) => {
   console.log({ timeArray });
+  console.log('vvvv', time);
   return (
     <>
       <Box className={style.divmainseatbook}>
@@ -112,15 +113,18 @@ const Seat: React.FC<SeatProps> = ({
                   </Box>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     {timeArray.map((data, ind) => {
+                      console.log('vvvv', data, time);
                       return (
                         <>
                           <Button
                             sx={{
-                              border: time === data ? '0px' : '1px solid #5A637A',
+                              border:
+                                time === data ? '0px' : isPast(data) ? '0px' : '1px solid #5A637A',
                               borderRadius: '5px',
                               color: time === data ? '#fff' : '#1a2c50',
                               fontSize: '17px',
-                              backgroundColor: time === data ? '#1a2c50' : '#fff',
+                              backgroundColor:
+                                time === data ? '#1a2c50' : isPast(data) ? '#efefef' : '#fff',
                               '&:hover': {
                                 color: '#fff',
                                 backgroundColor: '#1a2c50',
@@ -218,7 +222,7 @@ const Seat: React.FC<SeatProps> = ({
                         sx={{
                           border: '1px solid #5A637A',
                           borderRadius: '6px',
-                          cursor: 'pointer',
+                          cursor: data.Booked ? '' : 'pointer',
                           backgroundColor: data.Booked
                             ? '#1a2c50'
                             : seatId.includes(data.id)
